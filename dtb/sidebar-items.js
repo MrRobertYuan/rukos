@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["compatible_node","compatible_nodes","devices","get_node","init"],"struct":["DeviceNode","DeviceProp"]};

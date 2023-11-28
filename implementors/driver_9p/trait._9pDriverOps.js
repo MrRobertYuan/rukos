@@ -1,0 +1,4 @@
+(function() {var implementors = {
+"axdriver":[],
+"driver_virtio":[["impl&lt;H: <a class=\"trait\" href=\"driver_virtio/trait.VirtIoHal.html\" title=\"trait driver_virtio::VirtIoHal\">Hal</a>, T: <a class=\"trait\" href=\"driver_virtio/trait.Transport.html\" title=\"trait driver_virtio::Transport\">Transport</a>&gt; <a class=\"trait\" href=\"driver_9p/trait._9pDriverOps.html\" title=\"trait driver_9p::_9pDriverOps\">_9pDriverOps</a> for <a class=\"struct\" href=\"driver_virtio/struct.VirtIo9pDev.html\" title=\"struct driver_virtio::VirtIo9pDev\">VirtIo9pDev</a>&lt;H, T&gt;"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

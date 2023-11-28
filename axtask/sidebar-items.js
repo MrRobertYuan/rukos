@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["TaskState"],"fn":["current","current_may_uninit","exit","get_avenrun","init_scheduler","init_scheduler_secondary","on_timer_tick","pspawn","pspawn_raw","put_task","run_idle","set_priority","sleep","sleep_until","spawn","spawn_raw","yield_now"],"mod":["loadavg"],"struct":["CurrentTask","TaskId","TaskInner","WaitQueue"],"type":["AxTaskRef"]};

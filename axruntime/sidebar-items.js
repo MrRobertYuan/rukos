@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["environ_iter","rust_main","rust_main_secondary"],"static":["RX_ENVIRON","argv","environ"],"struct":["Signal","rx_sigaction"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["init_net_9pfs","init_virtio_9pfs"]};

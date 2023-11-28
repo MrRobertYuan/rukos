@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AxDeviceEnum"],"fn":["init_drivers"],"mod":["prelude"],"struct":["AllDevices","AxDeviceContainer"],"type":["Ax9pDevice","AxBlockDevice","AxDisplayDevice","AxNetDevice"]};
