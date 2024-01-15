@@ -1,0 +1,7 @@
+alloc
+paging
+fs
+virtio-9p
+musl
+poll
+multitask
