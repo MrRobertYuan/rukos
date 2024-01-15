@@ -7,11 +7,11 @@
  *   See the Mulan PSL v2 for more details.
  */
 
-use crate::ctypes;
+use crate::{ctypes, sys_lseek};
 use alloc::alloc::{alloc, dealloc};
 use core::{
     alloc::Layout,
-    ffi::{c_int, c_void},
+    ffi::{c_int, c_void}, borrow::Borrow,
 };
 
 use axerrno::LinuxError;
@@ -20,6 +20,7 @@ use axerrno::LinuxError;
 /// ing process.
 ///
 /// TODO: Only support `start` equals to NULL, ignore fd, prot, flags
+/// add something, temporary use for musl interpreter, waiting for improvement.
 pub fn sys_mmap(
     start: *mut c_void,
     len: ctypes::size_t,
@@ -30,17 +31,44 @@ pub fn sys_mmap(
 ) -> *mut c_void {
     debug!("sys_mmap <= start: {:p}, len: {}, fd: {}", start, len, _fd);
     syscall_body!(sys_mmap, {
-        if !start.is_null() {
-            debug!("Do not support explicitly specifying start addr");
-            return Ok(core::ptr::null_mut());
+        // if !start.is_null() {
+        //         debug!("Do not support explicitly specifying start addr");
+        //         return Ok(core::ptr::null_mut());
+        // }
+
+        
+        #[cfg(feature = "fd")]
+        if !start.is_null() && _fd > 0 {
+            let ptr = start; 
+            let fd = _fd;
+            use crate::imp::fd_ops::get_file_like;
+            let dst = unsafe { core::slice::from_raw_parts_mut(ptr as *mut u8, len) };
+            sys_lseek(fd, _off, 0);
+            get_file_like(fd)?.read(dst)?;
+            info!("read fd {:x} into , ptr {:#p}, {:x?}", fd, ptr, &dst[..20]);
+            return Ok(ptr); 
         }
+
         let layout = Layout::from_size_align(len, 8).unwrap();
-        unsafe {
+
+        let ptr = unsafe {
             let ptr = alloc(layout).cast::<c_void>();
             (ptr as *mut u8).write_bytes(0, len);
             assert!(!ptr.is_null(), "sys_mmap failed");
-            Ok(ptr)
+            ptr
+        };
+
+        #[cfg(feature = "fd")]
+        if _fd > 0 {
+            let fd = _fd;
+            use crate::imp::fd_ops::get_file_like;
+            let dst = unsafe { core::slice::from_raw_parts_mut(ptr as *mut u8, len) };
+            sys_lseek(fd, _off, 0);
+            get_file_like(fd)?.read(dst)?;
+            info!("read fd {:x} into , ptr {:#p}, {:x?}", fd, ptr, &dst[..20]);
         }
+
+        Ok(ptr)
     })
 }
 

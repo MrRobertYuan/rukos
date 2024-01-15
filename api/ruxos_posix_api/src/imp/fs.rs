@@ -337,7 +337,14 @@ pub unsafe fn sys_newfstatat(
         "sys_newfstatat <= fd: {}, path: {:?}, flag: {:x}",
         _fd, path, flag
     );
-    assert_eq!(_fd, ctypes::AT_FDCWD as c_int);
+
+    // temporary use for glic
+    if _fd != ctypes::AT_FDCWD as c_int {
+        sys_fstat(_fd, kst as *mut _);
+        return 0;
+    }
+
+    // assert_eq!(_fd, ctypes::AT_FDCWD as c_int);
     syscall_body!(sys_newfstatat, {
         if kst.is_null() {
             return Err(LinuxError::EFAULT);
