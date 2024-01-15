@@ -26,3 +26,5 @@ cfg_if::cfg_if! {
         use dummy::{syscall, syscall_id};
     }
 }
+#[cfg(feature = "fs")]
+pub mod dl;

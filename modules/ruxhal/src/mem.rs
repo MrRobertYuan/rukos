@@ -143,7 +143,7 @@ pub(crate) fn default_free_regions() -> impl Iterator<Item = MemRegion> {
     core::iter::once(MemRegion {
         paddr: start,
         size: end.as_usize() - start.as_usize(),
-        flags: MemRegionFlags::FREE | MemRegionFlags::READ | MemRegionFlags::WRITE,
+        flags: MemRegionFlags::FREE | MemRegionFlags::READ | MemRegionFlags::WRITE | MemRegionFlags::EXECUTE,
         name: "free memory",
     })
 }

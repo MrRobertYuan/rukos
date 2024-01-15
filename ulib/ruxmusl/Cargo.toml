@@ -58,3 +58,4 @@ ruxhal = { path = "../../modules/ruxhal" }
 axlog = { path = "../../modules/axlog" }
 kernel_guard = { path = "../../crates/kernel_guard" }
 crate_interface = { path = "../../crates/crate_interface" }
+elf = { version = "0.7" , default-features = false }
