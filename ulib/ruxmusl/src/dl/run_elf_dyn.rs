@@ -96,6 +96,8 @@ pub unsafe extern "C" fn parse_elf_dyn(
         1000,
         AT_EGID,
         1000,
+        AT_GID,
+        1000,
         AT_SECURE,
         0,
         AT_EXECFN,
