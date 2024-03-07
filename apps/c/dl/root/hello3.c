@@ -9,16 +9,16 @@
  */
 
 #include <stdio.h>
+#include <dlfcn.h>
 
-extern int parse_elf_dyn();
+typedef void (*get_func)();
 
-int main(int argc, char **argv)
+void main()
 {
-    puts("Hello, Ruxos dl!");
-    printf("argc %d, argv %p\n", argc, argv);
+    puts("Hello, main task!");
 
-    char *app_path = argv[0];
-    parse_elf_dyn(app_path, argc, argv);
+    void *fd = dlopen("/lib/libhello.so", RTLD_NOW);
+    get_func hello = ((void (*)())(dlsym(fd, "hello")));
 
-    return 0;
+    hello();
 }

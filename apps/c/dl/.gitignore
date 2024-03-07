@@ -1,1 +1,9 @@
-/root
+/root/install
+/root/mydisk
+/root/dev
+/root/etc
+/root/proc
+/root/sys
+/root/tmp
+/root/usr
+/root/lib
