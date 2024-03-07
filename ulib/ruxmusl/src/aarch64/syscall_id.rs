@@ -76,6 +76,7 @@ pub enum SyscallId {
     RT_SIGACTION = 134,
     #[cfg(feature = "signal")]
     RT_SIGPROCMASK = 135,
+    TIMES = 153, 
     UNAME = 160,
     GETRLIMIT = 163,
     SETRLIMIT = 164,

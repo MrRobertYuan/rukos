@@ -53,7 +53,7 @@ pub use imp::stat::{sys_getegid, sys_geteuid, sys_umask};
 pub use imp::sys::{sys_sysinfo, sys_uname};
 pub use imp::sys_invalid;
 pub use imp::task::{sys_exit, sys_getpid, sys_sched_yield};
-pub use imp::time::{sys_clock_gettime, sys_clock_settime, sys_gettimeofday, sys_nanosleep};
+pub use imp::time::{sys_clock_gettime, sys_clock_settime, sys_gettimeofday, sys_nanosleep, sys_times};
 
 #[cfg(all(feature = "fd", feature = "musl"))]
 pub use imp::fd_ops::sys_dup3;

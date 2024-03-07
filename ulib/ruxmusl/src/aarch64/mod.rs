@@ -211,6 +211,7 @@ pub fn syscall(syscall_id: SyscallId, args: [usize; 6]) -> isize {
                 args[2] as *mut usize,
                 args[3],
             ) as _,
+            SyscallId::TIMES => ruxos_posix_api::sys_times(args[0] as *mut usize) as _,
             SyscallId::UNAME => ruxos_posix_api::sys_uname(args[0] as *mut core::ffi::c_void) as _,
             SyscallId::GETRLIMIT => {
                 ruxos_posix_api::sys_getrlimit(args[0] as c_int, args[1] as *mut ctypes::rlimit)

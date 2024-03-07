@@ -53,6 +53,7 @@ pub unsafe fn sys_clock_gettime(_clk: ctypes::clockid_t, ts: *mut ctypes::timesp
         let now = ruxhal::time::current_time().into();
         unsafe { *ts = now };
         debug!("sys_clock_gettime: {}.{:09}s", now.tv_sec, now.tv_nsec);
+        info!("sys_clock_gettime: {}.{:09}s", now.tv_sec, now.tv_nsec);
         Ok(0)
     })
 }
@@ -114,4 +115,11 @@ pub unsafe fn sys_nanosleep(req: *const ctypes::timespec, rem: *mut ctypes::time
 pub unsafe fn sys_gettimeofday(ts: *mut ctypes::timespec, flags: c_int) -> c_int {
     debug!("sys_gettimeofday <= flags: {}", flags);
     unsafe { sys_clock_gettime(0, ts) }
+}
+
+/// TIMES
+pub unsafe fn sys_times(buf: *mut usize ) -> c_int {
+    syscall_body!(sys_times, {
+        Ok(0)
+    })
 }
