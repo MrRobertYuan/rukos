@@ -116,6 +116,7 @@ pub enum SyscallId {
     MREMAP = 216,
     #[cfg(feature = "multitask")]
     CLONE = 220,
+    EXECVE = 221, 
     #[cfg(feature = "alloc")]
     MMAP = 222,
     #[cfg(feature = "alloc")]

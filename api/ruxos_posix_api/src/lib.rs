@@ -113,3 +113,6 @@ pub use imp::pthread::sys_clone;
 pub use imp::pthread::sys_set_tid_address;
 #[cfg(feature = "multitask")]
 pub use imp::pthread::{sys_pthread_create, sys_pthread_exit, sys_pthread_join, sys_pthread_self};
+
+#[cfg(feature="fs")]
+pub use imp::execve::sys_execve; 

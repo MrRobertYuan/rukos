@@ -1,6 +1,6 @@
 pub mod syscall_id;
 
-use core::ffi::c_int;
+use core::ffi::{c_char, c_int};
 use ruxos_posix_api::ctypes;
 use syscall_id::SyscallId;
 
@@ -323,6 +323,10 @@ pub fn syscall(syscall_id: SyscallId, args: [usize; 6]) -> isize {
                 args[3] as *mut core::ffi::c_void,
                 args[4] as *mut ctypes::pid_t,
             ) as _,
+            SyscallId::EXECVE => {
+                ruxos_posix_api::sys_execve(args[0] as usize, args[1] as usize, args[2] as usize)
+                    as _
+            }
             #[cfg(feature = "alloc")]
             SyscallId::MMAP => ruxos_posix_api::sys_mmap(
                 args[0] as *mut core::ffi::c_void,

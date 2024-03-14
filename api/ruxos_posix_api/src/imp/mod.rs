@@ -18,6 +18,9 @@ pub mod sys;
 pub mod task;
 pub mod time;
 
+#[cfg(feature="fs")]
+pub mod execve;
+
 #[cfg(feature = "fd")]
 pub mod fd_ops;
 #[cfg(feature = "fs")]
