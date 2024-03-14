@@ -183,7 +183,7 @@ pub fn sys_open(filename: *const c_char, flags: c_int, mode: ctypes::mode_t) -> 
 /// TODO: Currently only support openat root directory
 pub fn sys_openat(_fd: usize, path: *const c_char, flags: c_int, mode: ctypes::mode_t) -> c_int {
     let path = char_ptr_to_str(path);
-    debug!("sys_openat <= {:?}, {:#o} {:#o}", path, flags, mode);
+    info!("sys_openat <= {:?}, {:#o} {:#o}", path, flags, mode);
     syscall_body!(sys_openat, {
         let options = flags_to_options(flags, mode);
         if (flags as u32) & ctypes::O_DIRECTORY != 0 {
@@ -289,7 +289,10 @@ pub unsafe fn sys_fstat(fd: c_int, kst: *mut core::ffi::c_void) -> c_int {
             let kst = kst as *mut ctypes::kstat;
             unsafe {
                 (*kst).st_dev = st.st_dev;
-                (*kst).st_ino = st.st_ino;
+                // in our FS, all inodes are 1, but they must differ. 
+                (*kst).st_ino = st.st_ino + st.st_size as u64 + st.st_mode as u64;
+                // (*kst).st_ino = st.st_ino ;
+                // ax_println!("inode = {}", st.st_ino);
                 (*kst).st_mode = st.st_mode;
                 (*kst).st_nlink = st.st_nlink;
                 (*kst).st_uid = st.st_uid;
@@ -505,7 +508,7 @@ pub fn sys_readlinkat(
     bufsize: usize,
 ) -> usize {
     let path = char_ptr_to_str(pathname);
-    debug!(
+    info!(
         "sys_readlinkat <= path = {:?}, fd = {:}, bufsize = {:}",
         path, fd, bufsize
     );
