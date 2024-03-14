@@ -1,4 +1,4 @@
-DL_APP_PATH = /hello2
-DL_ARGS=
-# DL_ENVS=LD_LIBRARY_PATH=/usr/lib:/lib:/install/lib/private
+DL_APP_PATH = /hello
+DL_ARGS=--help
 DL_ENVS=
+# DL_ENVS=LD_LIBRARY_PATH=/lib:/usr/lib:/install/lib/private,world=hello

@@ -9,16 +9,25 @@
  */
 
 #include <stdio.h>
+#include <unistd.h>
 
-extern int parse_elf_dyn();
 
 int main(int argc, char **argv)
 {
     puts("Hello, Ruxos dl!");
     printf("argc %d, argv %p\n", argc, argv);
 
+    // int i = 0;
+    for (int i = 0; i <= argc; i++) {
+        printf("arg %d: %s\n", i, *(argv + i));
+    }
+    // printf("arg %d: %s\n", i, *(argv + i));
+
     char *app_path = argv[0];
-    parse_elf_dyn(app_path, argc, argv);
+    // printf("go\n");
+    // execl(app_path, app_path, "--help", 0);
+    execv(app_path, argv);
+
 
     return 0;
 }

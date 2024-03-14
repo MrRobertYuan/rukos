@@ -17,7 +17,7 @@ DL_OUTPUT_DYNAMIC = $(DL_ROOT_DIR)/dynamichello
 
 include $(APP)/config.mk
 
-ARGS = $(DL_APP_PATH), $(DL_ARGS)
+ARGS = $(DL_APP_PATH),$(DL_ARGS)
 ENVS = $(DL_ENVS)
 # ARGS = $(DL_APP_PATH), --defaults-file=/install/my.cnf,  --basedir=/install, --datadir=/install/data, --plugin-dir=/install/lib/plugin, --user=root, --log-error=/install/data/err.log 
 # ENVS = LD_LIBRARY_PATH=/usr/lib:/lib:/install/lib/private,hello=world,world=hello
