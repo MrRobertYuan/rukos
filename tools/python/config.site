@@ -1,0 +1,6 @@
+ac_cv_file__dev_ptmx=no
+ac_cv_file__dev_ptc=no
+ac_cv_type_long_double=yes
+ac_cv_pthread_is_default=yes
+ac_cv_func_dlopen=yes
+ac_cv_func_strdup=yes
