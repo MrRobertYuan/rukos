@@ -30,7 +30,7 @@ pub struct ConsoleWinSize {
 /// ioctl implementation,
 /// currently only support fd = 1
 pub fn sys_ioctl(fd: c_int, request: usize, data: usize) -> c_int {
-    debug!("sys_ioctl <= fd: {}, request: {}", fd, request);
+    info!("sys_ioctl <= fd: {}, request: {:x}", fd, request);
     syscall_body!(sys_ioctl, {
         match request {
             FIONBIO => {
@@ -44,7 +44,12 @@ pub fn sys_ioctl(fd: c_int, request: usize, data: usize) -> c_int {
                 unsafe {
                     *winsize = ConsoleWinSize::default();
                 }
-                Ok(0)
+                if fd == 0 || fd == 1 || fd == 2 {
+                    Ok(0)
+                }
+                else{
+                    Err(LinuxError::ENOTTY)
+                }
             }
             TCGETS | TIOCSPGRP => {
                 warn!("stdout pretend to be tty");
