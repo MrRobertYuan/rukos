@@ -1614,6 +1614,7 @@ dependencies = [
  "axnet",
  "axsync",
  "bindgen",
+ "elf",
  "flatten_objects",
  "lazy_static",
  "memory_addr",

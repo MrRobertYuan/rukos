@@ -65,7 +65,7 @@ pub fn sys_mmap(
             let dst = unsafe { core::slice::from_raw_parts_mut(ptr as *mut u8, len) };
             sys_lseek(fd, _off, 0);
             get_file_like(fd)?.read(dst)?;
-            info!("read fd {:x} into , ptr {:#p}, {:x?}", fd, ptr, &dst[..20]);
+            //info!("read fd {:x} into , ptr {:#p}, {:x?}", fd, ptr, &dst[..20]);
         }
 
         Ok(ptr)

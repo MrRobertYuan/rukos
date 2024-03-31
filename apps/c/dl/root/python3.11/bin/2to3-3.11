@@ -1,0 +1,5 @@
+#!/media/robert/data/ruxos-0322/ruxos-czn/build-python/python3.11/bin/python3.11
+import sys
+from lib2to3.main import main
+
+sys.exit(main("lib2to3.fixes"))

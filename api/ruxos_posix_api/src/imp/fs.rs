@@ -513,19 +513,20 @@ pub fn sys_readlinkat(
         path, fd, bufsize
     );
     syscall_body!(sys_readlinkat, {
-        let mut options = OpenOptions::new();
-        options.read(true);
-        let dst = unsafe { core::slice::from_raw_parts_mut(buf as *mut u8, bufsize as _) };
-        // if fd == AT_FDCWD then readat the relative path
-        if fd == ctypes::AT_FDCWD as c_int {
-            let file = ruxfs::fops::File::open(path?, &options)?;
-            let file = File::new(file);
-            Ok(file.read(dst)?)
-        } else {
-            let dir = Directory::from_fd(fd)?;
-            let mut file = dir.inner.lock().open_file_at(path?, &options)?;
-            Ok(file.read(dst)?)
-        }
+        Err::<usize, LinuxError>(LinuxError::EINVAL)
+        // let mut options = OpenOptions::new();
+        // options.read(true);
+        // let dst = unsafe { core::slice::from_raw_parts_mut(buf as *mut u8, bufsize as _) };
+        // // if fd == AT_FDCWD then readat the relative path
+        // if fd == ctypes::AT_FDCWD as c_int {
+        //     let file = ruxfs::fops::File::open(path?, &options)?;
+        //     let file = File::new(file);
+        //     Ok(file.read(dst)?)
+        // } else {
+        //     let dir = Directory::from_fd(fd)?;
+        //     let mut file = dir.inner.lock().open_file_at(path?, &options)?;
+        //     Ok(file.read(dst)?)
+        // }
     })
 }
 

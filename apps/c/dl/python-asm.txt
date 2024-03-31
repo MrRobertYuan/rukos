@@ -1,0 +1,30 @@
+
+./root/bin/python3.9：     文件格式 elf64-littleaarch64
+
+
+Disassembly of section .plt:
+
+0000000000400450 <.plt>:
+  400450:	a9bf7bf0 	stp	x16, x30, [sp, #-16]!
+  400454:	f00000f0 	adrp	x16, 41f000 <__GNU_EH_FRAME_HDR+0x1eb6c>
+  400458:	f947fe11 	ldr	x17, [x16, #4088]
+  40045c:	913fe210 	add	x16, x16, #0xff8
+  400460:	d61f0220 	br	x17
+  400464:	d503201f 	nop
+  400468:	d503201f 	nop
+  40046c:	d503201f 	nop
+
+0000000000400470 <Py_BytesMain@plt>:
+  400470:	90000110 	adrp	x16, 420000 <Py_BytesMain>
+  400474:	f9400211 	ldr	x17, [x16]
+  400478:	91000210 	add	x16, x16, #0x0
+  40047c:	d61f0220 	br	x17
+
+Disassembly of section .text:
+
+0000000000400480 <main>:
+  400480:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+  400484:	910003fd 	mov	x29, sp
+  400488:	97fffffa 	bl	400470 <Py_BytesMain@plt>
+  40048c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+  400490:	d65f03c0 	ret

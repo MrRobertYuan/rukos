@@ -5,3 +5,11 @@ virtio-9p
 musl
 poll
 multitask
+irq
+fp_simd
+pipe
+epoll
+rtc
+select
+signal
+net

@@ -1,0 +1,28 @@
+mmap to read file at 0xffff000040400000 size 10f88
+mmap to copy LOAD at 0xffff00004021f800 size 634
+got vaddr = 0xFFFF00004063F7E0
+loaded ELF in 0xffff00004021f800, .text is 0xffff00004021fc80
+unmap ELF file in memory at 0xffff000040400000 len 10f88
+new elf prog: /lib/ld-musl-aarch64.so.1
+[  0.036336 0:2 ruxos_posix_api::imp::mmap:68] read fd 4 into , ptr 0xffff000040300000, [7f, 45, 4c, 46, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, b7, 0]
+mmap to read file at 0xffff000040300000 size eb740
+mmap to copy LOAD at 0xffff000040500000 size 9bd64
+got vaddr = 0xFFFF0000405AFF58
+loaded ELF in 0xffff000040500000, .text is 0xffff000040514600
+unmap ELF file in memory at 0xffff000040300000 len eb740
+INTERP base is ffff000040500000
+create stack Stack {
+    sp: 0xffff000040e50000,
+    start: 0xffff000040c00000,
+    end: 0xffff000040e50000,
+}
+get stack
+creating env & arg's vec
+env_vec ok
+argvec ok
+run at entry 0xffff000040561648, then it will jump to 0xffff00004061fc80
+
+b *0xffff000040561648
+add-symbol-file apps/c/dl/root/bin/python3.9 -s .text 0xffff000040561648
+add-symbol-file apps/c/dl/root/bin/python3.9 -s .plt 0xffff000040561348
+add-symbol-file apps/c/dl/root/lib/libpython3.9d.so -s .text 0xffff000040561648

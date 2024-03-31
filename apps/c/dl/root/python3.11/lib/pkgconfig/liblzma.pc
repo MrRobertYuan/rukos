@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: 0BSD
+# Author: Lasse Collin
+
+prefix=/media/robert/data/ruxos-0322/ruxos-czn/build-python/python3.11
+exec_prefix=/media/robert/data/ruxos-0322/ruxos-czn/build-python/python3.11
+libdir=/media/robert/data/ruxos-0322/ruxos-czn/build-python/python3.11/lib
+includedir=/media/robert/data/ruxos-0322/ruxos-czn/build-python/python3.11/include
+
+Name: liblzma
+Description: General purpose data compression library
+URL: https://xz.tukaani.org/xz-utils/
+Version: 5.6.1
+Cflags: -I${includedir}
+Cflags.private: -DLZMA_API_STATIC
+Libs: -L${libdir} -llzma
+Libs.private: -pthread -lpthread
