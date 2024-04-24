@@ -30,7 +30,7 @@ pub struct ConsoleWinSize {
 /// ioctl implementation,
 /// currently only support fd = 1
 pub fn sys_ioctl(fd: c_int, request: usize, data: usize) -> c_int {
-    info!("sys_ioctl <= fd: {}, request: {:x}", fd, request);
+    debug!("sys_ioctl <= fd: {}, request: {:x}", fd, request);
     syscall_body!(sys_ioctl, {
         match request {
             FIONBIO => {
