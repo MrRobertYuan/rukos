@@ -180,9 +180,13 @@ impl InterfaceWrapper {
     }
 
     pub fn poll(&self, sockets: &Mutex<SocketSet>) {
+        error!("lock0");
         let mut dev = self.dev.lock();
+        error!("lock1");
         let mut iface = self.iface.lock();
+        error!("lock2");
         let mut sockets = sockets.lock();
+        error!("lock3");
         let timestamp = Self::current_time();
         iface.poll(timestamp, dev.deref_mut(), &mut sockets);
     }

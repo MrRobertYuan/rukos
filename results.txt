@@ -1,0 +1,138 @@
+[37mmkdir[0m [90m-p apps/c/dl[0m
+    [92;1mBuilding[0m App: dl, Arch: aarch64, Platform: aarch64-qemu-virt, App type: c
+[37mcargo build[0m [90m--target aarch64-unknown-none-softfloat --target-dir /media/robert/data/ruxos-0510/rukos/target --release  -p ruxmusl --features "ruxfeat/log-level-error ruxfeat/rtc ruxfeat/virtio-9p ruxfeat/tls ruxmusl/smp ruxmusl/paging ruxmusl/alloc ruxmusl/irq ruxmusl/musl ruxmusl/multitask ruxmusl/fs ruxmusl/pipe ruxmusl/poll ruxmusl/signal ruxmusl/net ruxmusl/epoll ruxmusl/select ruxmusl/fd ruxmusl/musl ruxmusl/fp_simd ruxmusl/fd"[0m
+[37maarch64-linux-musl-gcc[0m [90m-nostdinc -fno-builtin -ffreestanding -Wall -isystem/media/robert/data/ruxos-0510/rukos/ulib/ruxmusl/install_aarch64_release/include -O3   -c -o apps/c/dl/main.o apps/c/dl/main.c[0m
+    [96;1mLinking[0m apps/c/dl/dl_aarch64-qemu-virt.elf
+[37mrust-lld -flavor gnu[0m [90m-nostdlib -static -no-pie --gc-sections -T/media/robert/data/ruxos-0510/rukos/modules/ruxhal/linker_aarch64-qemu-virt.lds ulib/ruxmusl/install_aarch64_release/lib/libc.a target/aarch64-unknown-none-softfloat/release/libruxmusl.a  apps/c/dl/main.o -o apps/c/dl/dl_aarch64-qemu-virt.elf[0m
+[37mrust-objcopy --binary-architecture=aarch64[0m [90mapps/c/dl/dl_aarch64-qemu-virt.elf --strip-all -O binary apps/c/dl/dl_aarch64-qemu-virt.bin[0m
+    [96;1mRunning[0m on qemu...
+[37mqemu-system-aarch64[0m [90m-m 2G -smp 4 -cpu cortex-a72 -machine virt -kernel apps/c/dl/dl_aarch64-qemu-virt.bin -append ";/bin/python3.11,/lib/python3.11/test/test_threading_futex.py;PYTHONLIB=/lib,PYTHONHOME=/" -device virtio-net-device,netdev=net0 -fsdev local,id=myid,path=apps/c/dl/rootfs,security_model=none -device virtio-9p-device,fsdev=myid,mount_tag=rootfs -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555,hostfwd=tcp::5556-:5556,hostfwd=udp::5556-:5556,hostfwd=tcp::5557-:5557,hostfwd=udp::5557-:5557,hostfwd=tcp::5558-:5558,hostfwd=udp::5558-:5558,hostfwd=tcp::5559-:5559,hostfwd=udp::5559-:5559, -nographic[0m
+
+8888888b.                     .d88888b.   .d8888b.  
+888   Y88b                   d88P" "Y88b d88P  Y88b 
+888    888                   888     888 Y88b.      
+888   d88P 888  888 888  888 888     888  "Y888b.   
+8888888P"  888  888 `Y8bd8P' 888     888     "Y88b. 
+888 T88b   888  888   X88K   888     888       "888 
+888  T88b  Y88b 888 .d8""8b. Y88b. .d88P Y88b  d88P 
+888   T88b  "Y88888 888  888  "Y88888P"   "Y8888P" 
+
+arch = aarch64
+platform = aarch64-qemu-virt
+target = aarch64-unknown-none-softfloat
+smp = 4
+build_mode = release
+log_level = error
+
+[37m[1716274978.016132 axfs_ramfs::dir:55] [31mAlreadyExists sys[m
+[m2
+/bin/python3.11
+/lib/python3.11/test/test_threading_futex.py
+[37m[1716274978.139607 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[1716274978.139920 0:2 ruxos_posix_api::imp:47] [31msys_invalid => Err(ENOSYS)[m
+[m[37m[1716274978.140245 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[1716274978.140358 0:2 ruxos_posix_api::imp:47] [31msys_invalid => Err(ENOSYS)[m
+[m[37m[1716274978.214617 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274978.215700 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/bin/python3.11._pth"), 0o400000 0o666[m
+[m[37m[1716274978.216922 0:2 ruxos_posix_api::imp::fs:213] [31msys_openat => Err(ENOENT)[m
+[m[37m[1716274978.217944 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/bin/python3.11._pth"), 0o400000 0o666[m
+[m[37m[1716274978.218339 0:2 ruxos_posix_api::imp::fs:213] [31msys_openat => Err(ENOENT)[m
+[m[37m[1716274978.218903 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/bin/pybuilddir.txt"), 0o400000 0o666[m
+[m[37m[1716274978.219289 0:2 ruxos_posix_api::imp::fs:213] [31msys_openat => Err(ENOENT)[m
+[m[37m[1716274978.219827 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/bin/Modules/Setup.local"), flag: 0[m
+[m[37m[1716274978.220336 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274978.244679 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/etc/localtime"), 0o2404000 0o34400570[m
+[m[37m[1716274978.245264 0:2 ruxos_posix_api::imp::mmap::api:79] [31mmmap failed because start:0x0 is not aligned or len:0x0 == 0[m
+[m[37m[1716274978.245561 0:2 ruxos_posix_api::imp::mmap::api:46] [31msys_mmap => Err(EINVAL)[m
+[m[37m[1716274979.249711 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python311.zip"), flag: 0[m
+[m[37m[1716274979.250281 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.251789 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib"), flag: 0[m
+[m[37m[1716274979.253977 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python311.zip"), flag: 0[m
+[m[37m[1716274979.254397 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.254806 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11"), flag: 0[m
+[m[37m[1716274979.255846 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11"), flag: 0[m
+[m[37m[1716274979.258295 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11"), flag: 0[m
+[m[37m[1716274979.259790 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11"), 0o2440000 0o0[m
+[m[37m[1716274979.276020 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.cpython-311-aarch64-linux-gnu.so"), flag: 0[m
+[m[37m[1716274979.276827 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.277291 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.abi3.so"), flag: 0[m
+[m[37m[1716274979.278014 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.278446 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.so"), flag: 0[m
+[m[37m[1716274979.279285 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.279680 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.py"), flag: 0[m
+[m[37m[1716274979.282375 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.py"), flag: 0[m
+[m[37m[1716274979.284980 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/__init__.cpython-311.pyc"), 0o2400000 0o0[m
+[m[37m[1716274979.290161 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__init__.py"), 0o2400000 0o0[m
+[m[37m[1716274979.362219 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__init__.py"), flag: 0[m
+[m[37m[1716274979.363745 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__pycache__"), flag: 0[m
+[m[37m[1716274979.365782 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/__init__.cpython-311.pyc.18446603336228947984"), 0o2400301 0o644[m
+[m[37m[1716274979.378535 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings"), flag: 0[m
+[m[37m[1716274979.379415 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings"), flag: 0[m
+[m[37m[1716274979.380515 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings"), flag: 0[m
+[m[37m[1716274979.381317 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings"), 0o2440000 0o0[m
+[m[37m[1716274979.387135 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/aliases.py"), flag: 0[m
+[m[37m[1716274979.388833 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/aliases.py"), flag: 0[m
+[m[37m[1716274979.389880 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/aliases.cpython-311.pyc"), 0o2400000 0o0[m
+[m[37m[1716274979.391893 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/aliases.py"), 0o2400000 0o0[m
+[m[37m[1716274979.417964 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/aliases.py"), flag: 0[m
+[m[37m[1716274979.419807 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__pycache__"), flag: 0[m
+[m[37m[1716274979.421151 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/aliases.cpython-311.pyc.18446603336228950112"), 0o2400301 0o644[m
+[m[37m[1716274979.431121 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings"), flag: 0[m
+[m[37m[1716274979.432511 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings"), 0o2440000 0o0[m
+[m[37m[1716274979.439254 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/utf_8.py"), flag: 0[m
+[m[37m[1716274979.441414 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/utf_8.py"), flag: 0[m
+[m[37m[1716274979.442797 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/utf_8.cpython-311.pyc"), 0o2400000 0o0[m
+[m[37m[1716274979.445039 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/utf_8.py"), 0o2400000 0o0[m
+[m[37m[1716274979.454953 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/utf_8.py"), flag: 0[m
+[m[37m[1716274979.456269 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/encodings/__pycache__"), flag: 0[m
+[m[37m[1716274979.457636 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/encodings/__pycache__/utf_8.cpython-311.pyc.18446603336228950224"), 0o2400301 0o644[m
+[m[37m[1716274979.475775 0:2 ruxos_posix_api::imp::fs:284] [31msys_lseek => Err(EINVAL)[m
+[m[37m[1716274979.477322 0:2 ruxos_posix_api::imp::fs:284] [31msys_lseek => Err(EINVAL)[m
+[m[37m[1716274979.477840 0:2 ruxos_posix_api::imp::fs:284] [31msys_lseek => Err(EINVAL)[m
+[m[37m[1716274979.504305 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/bin/pyvenv.cfg"), flag: 0[m
+[m[37m[1716274979.504863 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.505185 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/pyvenv.cfg"), flag: 0[m
+[m[37m[1716274979.505493 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.507812 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/etc/passwd"), 0o2400000 0o666[m
+[m[37m[1716274979.509012 0:2 ruxos_posix_api::imp::net:242] [31msys_socket <= 1 524289 0[m
+[m[37m[1716274979.509312 0:2 ruxos_posix_api::imp::net:260] [31meinval[m
+[m[37m[1716274979.509505 0:2 ruxos_posix_api::imp::net:245] [31msys_socket => Err(EINVAL)[m
+[m[37m[1716274979.509775 0:2 ruxos_posix_api::imp::net:242] [31msys_socket <= 1 1 0[m
+[m[37m[1716274979.509939 0:2 ruxos_posix_api::imp::net:260] [31meinval[m
+[m[37m[1716274979.510076 0:2 ruxos_posix_api::imp::net:245] [31msys_socket => Err(EINVAL)[m
+[m[37m[1716274979.510541 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("~/.local/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.511014 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.512440 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.513536 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/site-packages"), 0o2440000 0o0[m
+[m[37m[1716274979.515584 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11"), flag: 0[m
+[m[37m[1716274979.516225 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11"), 0o2440000 0o0[m
+[m[37m[1716274979.526497 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/lib-dynload"), flag: 0[m
+[m[37m[1716274979.527298 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/lib-dynload"), flag: 0[m
+[m[37m[1716274979.528151 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/lib-dynload"), flag: 0[m
+[m[37m[1716274979.528976 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/lib-dynload"), 0o2440000 0o0[m
+[m[37m[1716274979.532098 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.532926 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.533852 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.534655 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/site-packages"), 0o2440000 0o0[m
+[m[37m[1716274979.536921 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11"), flag: 0[m
+[m[37m[1716274979.537574 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11"), 0o2440000 0o0[m
+[m[37m[1716274979.549577 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/lib-dynload"), flag: 0[m
+[m[37m[1716274979.550571 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/lib-dynload"), 0o2440000 0o0[m
+[m[37m[1716274979.553670 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/site-packages"), flag: 0[m
+[m[37m[1716274979.554397 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/site-packages"), 0o2440000 0o0[m
+[m[37m[1716274979.556057 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/test/test_threading_futex.py"), flag: 0[m
+[m[37m[1716274979.556806 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.557204 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/test"), flag: 0[m
+[m[37m[1716274979.558107 0:2 ruxos_posix_api::imp::fs:422] [31msys_newfstatat <= fd: -100, path: Ok("/lib/python3.11/test/test_threading_futex.py"), flag: 0[m
+[m[37m[1716274979.558906 0:2 ruxos_posix_api::imp::fs:426] [31msys_newfstatat => Err(ENOENT)[m
+[m[37m[1716274979.559389 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274979.559800 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274979.560059 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274979.560295 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274979.560494 0:2 ruxos_posix_api::imp::fs:625] [31msys_readlinkat => Err(EINVAL)[m
+[m[37m[1716274979.561181 0:2 ruxos_posix_api::imp::fs:212] [31msys_openat <= -100, Ok("/lib/python3.11/test/test_threading_futex.py"), 0o400000 0o666[m
+[m[37m[1716274979.562198 0:2 ruxos_posix_api::imp::fs:213] [31msys_openat => Err(ENOENT)[m
+[m/bin/python3.11: can't open file '/lib/python3.11/test/test_threading_futex.py': [Errno 2] No such file or directory
+[37m[1716274979.597286 0:2 ruxmusl::trap:25] [31m94[m
+[m[37m[1716274979.597439 0:2 ruxos_posix_api::imp:47] [31msys_invalid => Err(ENOSYS)[m
+[m

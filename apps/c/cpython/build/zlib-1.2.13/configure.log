@@ -1,0 +1,166 @@
+--------------------
+./configure --prefix=/media/robert/data/ruxos-0510/rukos/apps/c/cpython/../dl/rootfs
+2024年 05月 20日 星期一 04:07:14 CST
+Using aarch64-linux-musl-ar
+Using aarch64-linux-musl-ranlib
+Using aarch64-linux-musl-nm
+Checking for aarch64-linux-musl-gcc...
+=== ztest313903.c ===
+extern int getchar();
+int hello() {return getchar();}
+===
+aarch64-linux-musl-gcc -c ztest313903.c
+... using gcc
+
+Checking for obsessive-compulsive compiler options...
+=== ztest313903.c ===
+int foo() { return 0; }
+===
+aarch64-linux-musl-gcc -c -O3 ztest313903.c
+
+Checking for shared library support...
+=== ztest313903.c ===
+extern int getchar();
+int hello() {return getchar();}
+===
+aarch64-linux-musl-gcc -w -c -O3 -fPIC ztest313903.c
+aarch64-linux-musl-gcc -shared -Wl,-soname,libz.so.1,--version-script,zlib.map -O3 -fPIC -o ztest313903.so ztest313903.o
+Building shared library libz.so.1.2.13 with aarch64-linux-musl-gcc.
+
+=== ztest313903.c ===
+#include <stdio.h>
+#include <stdlib.h>
+size_t dummy = 0;
+===
+aarch64-linux-musl-gcc -c -O3 ztest313903.c
+Checking for size_t... Yes.
+
+=== ztest313903.c ===
+#include <sys/types.h>
+off64_t dummy = 0;
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking for off64_t... Yes.
+Checking for fseeko... Yes.
+
+=== ztest313903.c ===
+#include <string.h>
+#include <errno.h>
+int main() { return strlen(strerror(errno)); }
+===
+aarch64-linux-musl-gcc -O3 -D_LARGEFILE64_SOURCE=1 -o ztest313903 ztest313903.c
+Checking for strerror... Yes.
+
+=== ztest313903.c ===
+#include <unistd.h>
+int main() { return 0; }
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking for unistd.h... Yes.
+
+=== ztest313903.c ===
+#include <stdarg.h>
+int main() { return 0; }
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking for stdarg.h... Yes.
+
+=== ztest313903.c ===
+#include <stdio.h>
+#include <stdarg.h>
+#include "zconf.h"
+int main()
+{
+#ifndef STDC
+  choke me
+#endif
+  return 0;
+}
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking whether to use vs[n]printf() or s[n]printf()... using vs[n]printf().
+
+=== ztest313903.c ===
+#include <stdio.h>
+#include <stdarg.h>
+int mytest(const char *fmt, ...)
+{
+  char buf[20];
+  va_list ap;
+  va_start(ap, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, ap);
+  va_end(ap);
+  return 0;
+}
+int main()
+{
+  return (mytest("Hello%d\n", 1));
+}
+===
+aarch64-linux-musl-gcc -O3 -D_LARGEFILE64_SOURCE=1 -o ztest313903 ztest313903.c
+Checking for vsnprintf() in stdio.h... Yes.
+
+=== ztest313903.c ===
+#include <stdio.h>
+#include <stdarg.h>
+int mytest(const char *fmt, ...)
+{
+  int n;
+  char buf[20];
+  va_list ap;
+  va_start(ap, fmt);
+  n = vsnprintf(buf, sizeof(buf), fmt, ap);
+  va_end(ap);
+  return n;
+}
+int main()
+{
+  return (mytest("Hello%d\n", 1));
+}
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking for return value of vsnprintf()... Yes.
+
+=== ztest313903.c ===
+#define ZLIB_INTERNAL __attribute__((visibility ("hidden")))
+int ZLIB_INTERNAL foo;
+int main()
+{
+  return 0;
+}
+===
+aarch64-linux-musl-gcc -c -O3 -D_LARGEFILE64_SOURCE=1 ztest313903.c
+Checking for attribute(visibility) support... Yes.
+
+ALL = static shared all64
+AR = aarch64-linux-musl-ar
+ARFLAGS = rc
+CC = aarch64-linux-musl-gcc
+CFLAGS = -O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN
+CPP =
+EXE =
+LDCONFIG = ldconfig
+LDFLAGS =
+LDSHARED = aarch64-linux-musl-gcc -shared -Wl,-soname,libz.so.1,--version-script,zlib.map
+LDSHAREDLIBC = -lc
+OBJC = $(OBJZ) $(OBJG)
+PIC_OBJC = $(PIC_OBJZ) $(PIC_OBJG)
+RANLIB = aarch64-linux-musl-ranlib
+SFLAGS = -O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN
+SHAREDLIB = libz.so
+SHAREDLIBM = libz.so.1
+SHAREDLIBV = libz.so.1.2.13
+STATICLIB = libz.a
+TEST = all teststatic testshared test64
+VER = 1.2.13
+SRCDIR =
+exec_prefix = ${prefix}
+includedir = ${prefix}/include
+libdir = ${exec_prefix}/lib
+mandir = ${prefix}/share/man
+prefix = /media/robert/data/ruxos-0510/rukos/apps/c/cpython/../dl/rootfs
+sharedlibdir = ${libdir}
+uname = Linux
+--------------------
+
+

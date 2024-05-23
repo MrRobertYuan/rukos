@@ -151,6 +151,7 @@ pub fn sys_fcntl(fd: c_int, cmd: c_int, arg: usize) -> c_int {
                     return Ok(0);
                 }
                 get_file_like(fd)?.set_nonblocking(arg & (ctypes::O_NONBLOCK as usize) > 0)?;
+                error!("set nonblocking in fcntl");
                 Ok(0)
             }
             ctypes::F_GETFL => {

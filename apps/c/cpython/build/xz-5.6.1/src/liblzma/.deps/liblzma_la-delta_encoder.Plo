@@ -1,0 +1,86 @@
+liblzma_la-delta_encoder.lo: delta/delta_encoder.c \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ delta/delta_encoder.h delta/delta_common.h \
+ ../../src/liblzma/common/common.h ../../src/common/sysdefs.h \
+ ../../config.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/inttypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/assert.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdbool.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h \
+ ../../src/common/mythread.h ../../src/common/sysdefs.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/signal.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/signal.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h \
+ ../../src/common/tuklib_integer.h ../../src/common/tuklib_common.h \
+ ../../src/common/tuklib_config.h ../../src/liblzma/api/lzma.h \
+ ../../src/liblzma/api/lzma/version.h ../../src/liblzma/api/lzma/base.h \
+ ../../src/liblzma/api/lzma/vli.h ../../src/liblzma/api/lzma/check.h \
+ ../../src/liblzma/api/lzma/filter.h ../../src/liblzma/api/lzma/bcj.h \
+ ../../src/liblzma/api/lzma/delta.h ../../src/liblzma/api/lzma/lzma12.h \
+ ../../src/liblzma/api/lzma/container.h \
+ ../../src/liblzma/api/lzma/stream_flags.h \
+ ../../src/liblzma/api/lzma/block.h ../../src/liblzma/api/lzma/index.h \
+ ../../src/liblzma/api/lzma/index_hash.h \
+ ../../src/liblzma/api/lzma/hardware.h delta/delta_private.h
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+delta/delta_encoder.h:
+delta/delta_common.h:
+../../src/liblzma/common/common.h:
+../../src/common/sysdefs.h:
+../../config.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/inttypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/assert.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdbool.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h:
+../../src/common/mythread.h:
+../../src/common/sysdefs.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/signal.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/signal.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h:
+../../src/common/tuklib_integer.h:
+../../src/common/tuklib_common.h:
+../../src/common/tuklib_config.h:
+../../src/liblzma/api/lzma.h:
+../../src/liblzma/api/lzma/version.h:
+../../src/liblzma/api/lzma/base.h:
+../../src/liblzma/api/lzma/vli.h:
+../../src/liblzma/api/lzma/check.h:
+../../src/liblzma/api/lzma/filter.h:
+../../src/liblzma/api/lzma/bcj.h:
+../../src/liblzma/api/lzma/delta.h:
+../../src/liblzma/api/lzma/lzma12.h:
+../../src/liblzma/api/lzma/container.h:
+../../src/liblzma/api/lzma/stream_flags.h:
+../../src/liblzma/api/lzma/block.h:
+../../src/liblzma/api/lzma/index.h:
+../../src/liblzma/api/lzma/index_hash.h:
+../../src/liblzma/api/lzma/hardware.h:
+delta/delta_private.h:

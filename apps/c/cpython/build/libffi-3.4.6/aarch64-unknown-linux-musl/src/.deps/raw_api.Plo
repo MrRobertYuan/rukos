@@ -1,0 +1,25 @@
+src/raw_api.lo: ../src/raw_api.c \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ include/ffi.h include/ffitarget.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h \
+ ../include/ffi_common.h fficonfig.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+include/ffi.h:
+include/ffitarget.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h:
+../include/ffi_common.h:
+fficonfig.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h:

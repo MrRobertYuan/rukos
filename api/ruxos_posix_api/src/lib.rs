@@ -55,11 +55,11 @@ pub use imp::stat::{
     sys_getegid, sys_geteuid, sys_getgid, sys_getpgid, sys_getuid, sys_setgid, sys_setpgid,
     sys_setuid, sys_umask,
 };
-pub use imp::sys::{sys_sysinfo, sys_uname};
+pub use imp::sys::{sys_sysinfo, sys_uname, sys_membarrier};
 pub use imp::sys_invalid;
 pub use imp::task::{sys_exit, sys_getpid, sys_getppid, sys_gettid, sys_sched_yield};
 pub use imp::time::{
-    sys_clock_gettime, sys_clock_settime, sys_gettimeofday, sys_nanosleep, sys_times,
+    sys_clock_gettime, sys_clock_settime, sys_clock_getres, sys_gettimeofday, sys_nanosleep, sys_times, sys_clock_nanosleep
 };
 
 #[cfg(all(feature = "fd", feature = "musl"))]
@@ -68,10 +68,10 @@ pub use imp::fd_ops::sys_dup3;
 pub use imp::fd_ops::{sys_close, sys_dup, sys_dup2, sys_fcntl};
 #[cfg(feature = "fs")]
 pub use imp::fs::{
-    sys_chdir, sys_faccessat, sys_fchownat, sys_fdatasync, sys_fstat, sys_fsync, sys_getcwd,
+    sys_chdir, sys_faccessat, sys_fchownat, sys_fchmodat, sys_fdatasync, sys_fstat, sys_fsync, sys_getcwd,
     sys_getdents64, sys_lseek, sys_lstat, sys_mkdir, sys_mkdirat, sys_newfstatat, sys_open,
-    sys_openat, sys_pread64, sys_preadv, sys_pwrite64, sys_readlinkat, sys_rename, sys_renameat,
-    sys_rmdir, sys_stat, sys_unlink, sys_unlinkat,
+    sys_openat, sys_pread64, sys_preadv, sys_pwrite64, sys_sendfile, sys_readlinkat, sys_rename, sys_renameat,
+    sys_ftruncate, sys_rmdir, sys_stat, sys_unlink, sys_unlinkat,
 };
 #[cfg(feature = "epoll")]
 pub use imp::io_mpx::{sys_epoll_create, sys_epoll_ctl, sys_epoll_pwait, sys_epoll_wait};
@@ -87,7 +87,7 @@ pub use imp::mmap::{sys_madvise, sys_mmap, sys_mprotect, sys_mremap, sys_msync, 
 pub use imp::net::{
     sys_accept, sys_bind, sys_connect, sys_freeaddrinfo, sys_getaddrinfo, sys_getpeername,
     sys_getsockname, sys_listen, sys_recv, sys_recvfrom, sys_send, sys_sendmsg, sys_sendto,
-    sys_setsockopt, sys_shutdown, sys_socket,
+    sys_setsockopt, sys_getsockopt, sys_shutdown, sys_socket,
 };
 #[cfg(feature = "pipe")]
 pub use imp::pipe::{sys_pipe, sys_pipe2};

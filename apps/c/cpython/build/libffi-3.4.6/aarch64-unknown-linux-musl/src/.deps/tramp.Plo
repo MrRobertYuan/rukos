@@ -1,0 +1,75 @@
+src/tramp.lo: ../src/tramp.c \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ fficonfig.h include/ffi.h include/ffitarget.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h \
+ ../include/ffi_common.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/unistd.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/posix.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/fcntl.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/fcntl.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/mman.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/mman.h \
+ ../include/tramp.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/int-ll64.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/bitsperlong.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/bitsperlong.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/posix_types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/posix_types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/posix_types.h
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+fficonfig.h:
+include/ffi.h:
+include/ffitarget.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h:
+../include/ffi_common.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/unistd.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/posix.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/fcntl.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/fcntl.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/mman.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/mman.h:
+../include/tramp.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/int-ll64.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/bitsperlong.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/bitsperlong.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/posix_types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/linux/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm/posix_types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/asm-generic/posix_types.h:

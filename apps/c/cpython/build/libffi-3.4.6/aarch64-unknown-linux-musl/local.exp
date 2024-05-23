@@ -1,0 +1,3 @@
+set CC_FOR_TARGET "aarch64-linux-musl-gcc"
+set CXX_FOR_TARGET "aarch64-linux-musl-g++"
+set compiler_vendor "gnu"

@@ -1,0 +1,81 @@
+src/closures.lo: ../src/closures.c \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ fficonfig.h include/ffi.h include/ffitarget.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h \
+ ../include/ffi_common.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h \
+ ../include/tramp.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/types.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/endian.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/select.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/stat.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stat.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/fcntl.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/fcntl.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/unistd.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/posix.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/mntent.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/param.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/resource.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/time.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/resource.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/mman.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/mman.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/statfs.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/statvfs.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/statfs.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h \
+ ../src/dlmalloc.c
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+fficonfig.h:
+include/ffi.h:
+include/ffitarget.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h:
+../include/ffi_common.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h:
+../include/tramp.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/types.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/endian.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/select.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/stat.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stat.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/fcntl.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/fcntl.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/unistd.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/posix.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/mntent.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/param.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/resource.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/time.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/resource.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/pthread.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sched.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/time.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/mman.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/mman.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/statfs.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/sys/statvfs.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/statfs.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h:
+../src/dlmalloc.c:

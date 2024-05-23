@@ -1,0 +1,47 @@
+[37mmkdir[0m [90m-p apps/c/dl[0m
+    [92;1mBuilding[0m App: dl, Arch: aarch64, Platform: aarch64-qemu-virt, App type: c
+[37mcargo build[0m [90m--target aarch64-unknown-none-softfloat --target-dir /media/robert/data/ruxos-0510/rukos/target --release  -p ruxmusl --features "ruxfeat/log-level-error ruxfeat/rtc ruxfeat/virtio-9p ruxfeat/tls ruxmusl/smp ruxmusl/paging ruxmusl/alloc ruxmusl/irq ruxmusl/musl ruxmusl/multitask ruxmusl/fs ruxmusl/pipe ruxmusl/poll ruxmusl/signal ruxmusl/net ruxmusl/epoll ruxmusl/select ruxmusl/fd ruxmusl/musl ruxmusl/fp_simd ruxmusl/fd"[0m
+[37maarch64-linux-musl-gcc[0m [90m-nostdinc -fno-builtin -ffreestanding -Wall -isystem/media/robert/data/ruxos-0510/rukos/ulib/ruxmusl/install_aarch64_release/include -O3   -c -o apps/c/dl/main.o apps/c/dl/main.c[0m
+    [96;1mLinking[0m apps/c/dl/dl_aarch64-qemu-virt.elf
+[37mrust-lld -flavor gnu[0m [90m-nostdlib -static -no-pie --gc-sections -T/media/robert/data/ruxos-0510/rukos/modules/ruxhal/linker_aarch64-qemu-virt.lds ulib/ruxmusl/install_aarch64_release/lib/libc.a target/aarch64-unknown-none-softfloat/release/libruxmusl.a  apps/c/dl/main.o -o apps/c/dl/dl_aarch64-qemu-virt.elf[0m
+[37mrust-objcopy --binary-architecture=aarch64[0m [90mapps/c/dl/dl_aarch64-qemu-virt.elf --strip-all -O binary apps/c/dl/dl_aarch64-qemu-virt.bin[0m
+    [96;1mRunning[0m on qemu...
+[37mqemu-system-aarch64[0m [90m-m 2G -smp 4 -cpu cortex-a72 -machine virt -kernel apps/c/dl/dl_aarch64-qemu-virt.bin -append ";/bin/python3.11,/lib/python3.11/test/test_asyncio/test_base_events.py;PYTHONHOME=/,PYTHONLIB=/lib" -device virtio-net-device,netdev=net0 -fsdev local,id=myid,path=apps/c/dl/rootfs,security_model=none -device virtio-9p-device,fsdev=myid,mount_tag=rootfs -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555,hostfwd=tcp::5556-:5556,hostfwd=udp::5556-:5556,hostfwd=tcp::5557-:5557,hostfwd=udp::5557-:5557,hostfwd=tcp::5558-:5558,hostfwd=udp::5558-:5558,hostfwd=tcp::5559-:5559,hostfwd=udp::5559-:5559, -nographic[0m
+
+8888888b.                     .d88888b.   .d8888b.  
+888   Y88b                   d88P" "Y88b d88P  Y88b 
+888    888                   888     888 Y88b.      
+888   d88P 888  888 888  888 888     888  "Y888b.   
+8888888P"  888  888 `Y8bd8P' 888     888     "Y88b. 
+888 T88b   888  888   X88K   888     888       "888 
+888  T88b  Y88b 888 .d8""8b. Y88b. .d88P Y88b  d88P 
+888   T88b  "Y88888 888  888  "Y88888P"   "Y8888P" 
+
+arch = aarch64
+platform = aarch64-qemu-virt
+target = aarch64-unknown-none-softfloat
+smp = 4
+build_mode = release
+log_level = error
+
+[37m[1716268484.020579 axfs_ramfs::dir:55] [31mAlreadyExists sys[m
+[m2
+/bin/python3.11
+/lib/python3.11/test/test_asyncio/test_base_events.py
+[37m[1716268484.165390 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[1716268484.165734 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[1716268484.287425 0:2 ruxos_posix_api::imp::mmap::api:79] [31mmmap failed because start:0x0 is not aligned or len:0x0 == 0[m
+[mTraceback (most recent call last):
+  File "/lib/python3.11/test/test_asyncio/test_base_events.py", line 1065, in <module>
+    class BaseEventLoopWithSelectorTests(test_utils.TestCase):
+  File "/lib/python3.11/test/test_asyncio/test_base_events.py", line 1711, in BaseEventLoopWithSelectorTests
+    @socket_helper.skip_unless_bind_unix_socket
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.11/test/support/socket_helper.py", line 155, in skip_unless_bind_unix_socket
+    with socket.socket(socket.AF_UNIX) as sock:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.11/socket.py", line 232, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+OSError: [Errno 22] Invalid argument
+[37m[1716268499.433973 0:2 ruxmusl::trap:25] [31m94[m
+[m

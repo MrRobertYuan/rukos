@@ -279,6 +279,20 @@ pub fn sys_setsockopt(
     syscall_body!(sys_setsockopt, Ok(0))
 }
 
+pub fn sys_getsockopt(
+    fd: c_int,
+    level: c_int,
+    optname: c_int,
+    _optval: *const c_void,
+    optlen: ctypes::socklen_t,
+) -> c_int {
+    debug!(
+        "sys_getsockopt <= fd: {}, level: {}, optname: {}, optlen: {}, IGNORED",
+        fd, level, optname, optlen
+    );
+    syscall_body!(sys_getsockopt, Ok(0))
+}
+
 /// Bind a address to a socket.
 ///
 /// Return 0 if success.
@@ -287,12 +301,13 @@ pub fn sys_bind(
     socket_addr: *const ctypes::sockaddr,
     addrlen: ctypes::socklen_t,
 ) -> c_int {
-    debug!(
+    error!(
         "sys_bind <= {} {:#x} {}",
         socket_fd, socket_addr as usize, addrlen
     );
     syscall_body!(sys_bind, {
         let addr = from_sockaddr(socket_addr, addrlen)?;
+        error!("addr = {:?}", addr);
         Socket::from_fd(socket_fd)?.bind(addr)?;
         Ok(0)
     })
@@ -306,13 +321,17 @@ pub fn sys_connect(
     socket_addr: *const ctypes::sockaddr,
     addrlen: ctypes::socklen_t,
 ) -> c_int {
-    debug!(
+    error!(
         "sys_connect <= {} {:#x} {}",
         socket_fd, socket_addr as usize, addrlen
     );
     syscall_body!(sys_connect, {
         let addr = from_sockaddr(socket_addr, addrlen)?;
+        error!("addr: {:?}", addr);
         Socket::from_fd(socket_fd)?.connect(addr)?;
+        // while let Err(_) = Socket::from_fd(socket_fd)?.connect(addr){
+        //     ruxtask::yield_now();
+        // }
         Ok(0)
     })
 }
@@ -355,7 +374,7 @@ pub fn sys_send(
     len: ctypes::size_t,
     flag: c_int, // currently not used
 ) -> ctypes::ssize_t {
-    debug!(
+    error!(
         "sys_sendto <= {} {:#x} {} {}",
         socket_fd, buf_ptr as usize, len, flag
     );
@@ -379,7 +398,7 @@ pub unsafe fn sys_recvfrom(
     socket_addr: *mut ctypes::sockaddr,
     addrlen: *mut ctypes::socklen_t,
 ) -> ctypes::ssize_t {
-    debug!(
+    error!(
         "sys_recvfrom <= {} {:#x} {} {} {:#x} {:#x}",
         socket_fd, buf_ptr as usize, len, flag, socket_addr as usize, addrlen as usize
     );
@@ -413,7 +432,7 @@ pub fn sys_recv(
     len: ctypes::size_t,
     flag: c_int, // currently not used
 ) -> ctypes::ssize_t {
-    debug!(
+    error!(
         "sys_recv <= {} {:#x} {} {}",
         socket_fd, buf_ptr as usize, len, flag
     );
@@ -433,7 +452,7 @@ pub fn sys_listen(
     socket_fd: c_int,
     backlog: c_int, // currently not used
 ) -> c_int {
-    debug!("sys_listen <= {} {}", socket_fd, backlog);
+    error!("sys_listen <= {} {}", socket_fd, backlog);
     syscall_body!(sys_listen, {
         Socket::from_fd(socket_fd)?.listen()?;
         Ok(0)
@@ -448,7 +467,7 @@ pub unsafe fn sys_accept(
     socket_addr: *mut ctypes::sockaddr,
     socket_len: *mut ctypes::socklen_t,
 ) -> c_int {
-    debug!(
+    error!(
         "sys_accept <= {} {:#x} {:#x}",
         socket_fd, socket_addr as usize, socket_len as usize
     );

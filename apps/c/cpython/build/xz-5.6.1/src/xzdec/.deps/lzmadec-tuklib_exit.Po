@@ -1,0 +1,51 @@
+lzmadec-tuklib_exit.o: ../common/tuklib_exit.c \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ ../common/tuklib_common.h ../common/tuklib_config.h ../common/sysdefs.h \
+ ../../config.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/inttypes.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/assert.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdbool.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h \
+ ../common/tuklib_gettext.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/locale.h \
+ ../common/tuklib_progname.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h \
+ ../common/tuklib_exit.h
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+../common/tuklib_common.h:
+../common/tuklib_config.h:
+../common/sysdefs.h:
+../../config.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stddef.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/alltypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/inttypes.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/features.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/stdint.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/limits.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdlib.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/alloca.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/assert.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdbool.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/string.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/strings.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdio.h:
+../common/tuklib_gettext.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/locale.h:
+../common/tuklib_progname.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/errno.h:
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/bits/errno.h:
+../common/tuklib_exit.h:

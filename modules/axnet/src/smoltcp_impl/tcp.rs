@@ -173,6 +173,7 @@ impl TcpSocket {
             if !writable {
                 // When set to non_blocking, directly return inporgress
                 if self.is_nonblocking() {
+                    error!("nonblocking 1");
                     return Err(AxError::InProgress);
                 }
                 Err(AxError::WouldBlock)
@@ -181,6 +182,7 @@ impl TcpSocket {
             } else {
                 // When set to non_blocking, directly return inporgress
                 if self.is_nonblocking() {
+                    error!("nonblocking 2");
                     return Err(AxError::InProgress);
                 }
                 ax_err!(ConnectionRefused, "socket connect() failed")
@@ -306,6 +308,7 @@ impl TcpSocket {
                     // data available
                     // TODO: use socket.recv(|buf| {...})
                     if flags & MSG_DONTWAIT != 0 {
+                        error!("set here MSG_DONTWAIT");
                         self.set_nonblocking(true);
                     }
                     if flags & MSG_PEEK != 0 {
@@ -508,11 +511,13 @@ impl TcpSocket {
             f()
         } else {
             loop {
+                // error!("continue block 1");
                 SOCKET_SET.poll_interfaces();
+                // error!("continue block 2");
                 match f() {
-                    Ok(t) => return Ok(t),
-                    Err(AxError::WouldBlock) => ruxtask::yield_now(),
-                    Err(e) => return Err(e),
+                    Ok(t) => {return Ok(t)},
+                    Err(AxError::WouldBlock) => {ruxtask::yield_now()},
+                    Err(e) => {return Err(e)},
                 }
             }
         }

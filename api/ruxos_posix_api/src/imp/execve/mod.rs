@@ -16,6 +16,8 @@ use crate::{
 pub fn sys_execve(pathname: *const c_char, argv: usize, envp: usize) -> ! {
     use auxv::*;
 
+    debug!("{:?}", pathname);
+
     let path = char_ptr_to_str(pathname).unwrap();
     let prog = load_elf::ElfProg::new(path);
 

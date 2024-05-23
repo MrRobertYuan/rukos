@@ -1,0 +1,10 @@
+src/aarch64/sysv.lo: ../src/aarch64/sysv.S \
+ /media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h \
+ fficonfig.h include/ffi.h include/ffitarget.h ../include/ffi_cfi.h \
+ ../src/aarch64/internal.h
+/media/robert/data/aarch64-linux-musl-cross/aarch64-linux-musl/include/stdc-predef.h:
+fficonfig.h:
+include/ffi.h:
+include/ffitarget.h:
+../include/ffi_cfi.h:
+../src/aarch64/internal.h:
