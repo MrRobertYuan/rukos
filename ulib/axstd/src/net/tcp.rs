@@ -34,8 +34,11 @@ impl TcpStream {
     pub fn connect<A: ToSocketAddrs>(addr: A) -> io::Result<TcpStream> {
         super::each_addr(addr, |addr: io::Result<&SocketAddr>| {
             let addr = addr?;
+            error!("tcp connect stage 1");
             let socket = api::ax_tcp_socket();
+            error!("tcp connect stage 2");
             api::ax_tcp_connect(&socket, *addr)?;
+            error!("tcp connect stage 3");
             Ok(TcpStream(socket))
         })
     }

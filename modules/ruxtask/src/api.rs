@@ -211,10 +211,10 @@ pub fn exit(exit_code: i32) -> ! {
 pub fn run_idle() -> ! {
     loop {
         yield_now();
-        debug!(
-            "idle task[{}]: waiting for IRQs...",
-            current().id().as_u64()
-        );
+        // debug!(
+        //     "idle task[{}]: waiting for IRQs...",
+        //     current().id().as_u64()
+        // );
         #[cfg(feature = "irq")]
         ruxhal::arch::wait_for_irqs();
     }

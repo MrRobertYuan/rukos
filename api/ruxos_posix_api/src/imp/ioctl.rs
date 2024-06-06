@@ -44,9 +44,20 @@ pub fn sys_ioctl(fd: c_int, request: usize, data: usize) -> c_int {
                 unsafe {
                     *winsize = ConsoleWinSize::default();
                 }
+                if fd == 0 || fd == 1 || fd == 2{
+                    Ok(0)
+                }
+                else{
+                    Ok(-1)
+                    // Err(LinuxError::ENOTTY)
+                }
+                
+            }
+            TCGETS => {
+                debug!("sys_ioctl: tty TCGETS");
                 Ok(0)
             }
-            TCGETS | TIOCSPGRP => {
+            TIOCSPGRP => {
                 warn!("stdout pretend to be tty");
                 Ok(0)
             }

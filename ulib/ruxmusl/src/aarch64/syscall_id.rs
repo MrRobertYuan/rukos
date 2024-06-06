@@ -30,9 +30,13 @@ pub enum SyscallId {
     #[cfg(feature = "fs")]
     RENAMEAT = 38,
     #[cfg(feature = "fs")]
+    FTRUNCATE = 46,
+    #[cfg(feature = "fs")]
     FACCESSAT = 48,
     #[cfg(feature = "fs")]
     CHDIR = 49,
+    #[cfg(feature = "fs")]
+    FCHMODAT = 53,
     #[cfg(feature = "fs")]
     FCHOWNAT = 54,
     #[cfg(feature = "fs")]
@@ -57,6 +61,8 @@ pub enum SyscallId {
     PWRITE64 = 68,
     #[cfg(feature = "fs")]
     PREADV = 69,
+    #[cfg(feature = "fs")]
+    SENDFILE = 71,
     #[cfg(feature = "select")]
     PSELECT6 = 72,
     #[cfg(feature = "poll")]
@@ -80,6 +86,8 @@ pub enum SyscallId {
     NANO_SLEEP = 101,
     CLOCK_SETTIME = 112,
     CLOCK_GETTIME = 113,
+    CLOCK_GETRES = 114,
+    CLOCK_NANO_SLEEP = 115,
     SCHED_YIELD = 124,
     #[cfg(feature = "signal")]
     KILL = 129,
@@ -128,6 +136,8 @@ pub enum SyscallId {
     #[cfg(feature = "net")]
     SETSOCKOPT = 208,
     #[cfg(feature = "net")]
+    GETSOCKOPT = 209,
+    #[cfg(feature = "net")]
     SHUTDOWN = 210,
     #[cfg(feature = "net")]
     SENDMSG = 211,
@@ -149,4 +159,5 @@ pub enum SyscallId {
     MADVISE = 233,
     PRLIMIT64 = 261,
     GETRANDOM = 278,
+    MEMBARRIER = 283,
 }

@@ -13,6 +13,8 @@ use core::time::Duration;
 use crate::ctypes;
 
 use axerrno::LinuxError;
+const CLOCK_REALTIME: ctypes::clockid_t = 0;
+const CLOCK_MONOTONIC: ctypes::clockid_t = 1;
 
 impl From<ctypes::timespec> for Duration {
     fn from(ts: ctypes::timespec) -> Self {
@@ -74,6 +76,26 @@ pub unsafe fn sys_clock_settime(_clk: ctypes::clockid_t, ts: *const ctypes::time
     })
 }
 
+/// Get clock resolution (precision) of the specified clock
+pub unsafe fn sys_clock_getres(clk: ctypes::clockid_t, res: *mut ctypes::timespec) -> c_int {
+    syscall_body!(sys_clock_gettime, {
+        error!("sys_clock_getres, clk:{:?}", clk);
+        if clk != CLOCK_MONOTONIC && clk != CLOCK_REALTIME{
+            return Err(LinuxError::EINVAL);
+        }
+        if res.is_null() {
+            return Err(LinuxError::EFAULT);
+        }
+        unsafe {
+            (*res) = ctypes::timespec {
+                tv_nsec: 1,
+                tv_sec: 0,
+            };
+        }
+        Ok(0)
+    })
+}
+
 /// Sleep some nanoseconds
 ///
 /// TODO: should be woken by signals, and set errno
@@ -91,6 +113,62 @@ pub unsafe fn sys_nanosleep(req: *const ctypes::timespec, rem: *mut ctypes::time
         };
 
         let now = ruxhal::time::current_time();
+
+        #[cfg(feature = "multitask")]
+        ruxtask::sleep(dur);
+        #[cfg(not(feature = "multitask"))]
+        ruxhal::time::busy_wait(dur);
+
+        let after = ruxhal::time::current_time();
+        let actual = after - now;
+
+        if let Some(diff) = dur.checked_sub(actual) {
+            if !rem.is_null() {
+                unsafe { (*rem) = diff.into() };
+            }
+            return Err(LinuxError::EINTR);
+        }
+        Ok(0)
+    })
+}
+
+/// Sleep some nanoseconds
+///
+/// TODO: only support id = MONOTONIC
+/// 
+pub unsafe fn sys_clock_nanosleep(clk: ctypes::clockid_t, flags: c_int, req: *const ctypes::timespec, rem: *mut ctypes::timespec) -> c_int {
+    debug!("sys_clock_nanosleep <= clockid: {}, flags: {}", clk, flags);
+    const TIMER_ABSTIME: c_int = 1;
+    syscall_body!(sys_clock_nanosleep, {
+        unsafe {
+            if clk != CLOCK_MONOTONIC {
+                return Err(LinuxError::EINVAL)
+            }
+            if req.is_null() || (*req).tv_nsec < 0 || (*req).tv_nsec > 999999999 {
+                return Err(LinuxError::EINVAL);
+            }
+        }
+
+        let mut dur = unsafe {
+            debug!("sys_clock_nanosleep <= {}.{:09}s", (*req).tv_sec, (*req).tv_nsec);
+            Duration::from(*req)
+        };
+
+        let now = ruxhal::time::current_time();
+
+        if flags == TIMER_ABSTIME {
+            if dur < now {
+                return Ok(0);
+            }
+            //dur = dur - now;
+            if let Some(tmp) = dur.checked_sub(now){
+                dur = tmp;
+            }
+            else{
+                return Ok(0);
+            }
+            
+        }
 
         #[cfg(feature = "multitask")]
         ruxtask::sleep(dur);

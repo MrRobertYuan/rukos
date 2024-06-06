@@ -257,7 +257,7 @@ pub unsafe fn sys_clone(
     tls: *mut c_void,
     ctid: *mut ctypes::pid_t,
 ) -> c_int {
-    debug!(
+    error!(
         "sys_clone <= flags: {:x}, stack: {:p}, ctid: {:x}",
         flags, stack, ctid as usize
     );

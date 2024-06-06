@@ -1,0 +1,228 @@
+[37mmkdir[0m [90m-p apps/c/httpserver/[0m
+    [92;1mBuilding[0m App: httpserver, Arch: aarch64, Platform: aarch64-qemu-virt, App type: c
+[37mcargo build[0m [90m--target aarch64-unknown-none-softfloat --target-dir /media/robert/data/ruxos-0510/rukos/target --release  -p ruxmusl --features "ruxfeat/log-level-debug ruxfeat/tls ruxmusl/smp ruxmusl/alloc ruxmusl/paging ruxmusl/net ruxmusl/multitask ruxmusl/sched_rr ruxmusl/fd ruxmusl/musl ruxmusl/fp_simd ruxmusl/fd"[0m
+[37maarch64-linux-musl-gcc[0m [90m-nostdinc -fno-builtin -ffreestanding -Wall -isystem/media/robert/data/ruxos-0510/rukos/ulib/ruxmusl/install_aarch64_release/include -O3   -c -o apps/c/httpserver//httpserver.o apps/c/httpserver//httpserver.c[0m
+    [96;1mLinking[0m apps/c/httpserver//httpserver_aarch64-qemu-virt.elf
+[37mrust-lld -flavor gnu[0m [90m-nostdlib -static -no-pie --gc-sections -T/media/robert/data/ruxos-0510/rukos/modules/ruxhal/linker_aarch64-qemu-virt.lds ulib/ruxmusl/install_aarch64_release/lib/libc.a target/aarch64-unknown-none-softfloat/release/libruxmusl.a  apps/c/httpserver//httpserver.o -o apps/c/httpserver//httpserver_aarch64-qemu-virt.elf[0m
+[37mrust-objcopy --binary-architecture=aarch64[0m [90mapps/c/httpserver//httpserver_aarch64-qemu-virt.elf --strip-all -O binary apps/c/httpserver//httpserver_aarch64-qemu-virt.bin[0m
+    [96;1mRunning[0m on qemu...
+[37mqemu-system-aarch64[0m [90m-m 2G -smp 4 -cpu cortex-a72 -machine virt -kernel apps/c/httpserver//httpserver_aarch64-qemu-virt.bin -append ";;" -device virtio-net-device,netdev=net0 -fsdev local,id=myid,path=./,security_model=none -device virtio-9p-device,fsdev=myid,mount_tag=rootfs -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555,hostfwd=tcp::5556-:5556,hostfwd=udp::5556-:5556,hostfwd=tcp::5557-:5557,hostfwd=udp::5557-:5557,hostfwd=tcp::5558-:5558,hostfwd=udp::5558-:5558,hostfwd=tcp::5559-:5559,hostfwd=udp::5559-:5559, -nographic[0m
+
+8888888b.                     .d88888b.   .d8888b.  
+888   Y88b                   d88P" "Y88b d88P  Y88b 
+888    888                   888     888 Y88b.      
+888   d88P 888  888 888  888 888     888  "Y888b.   
+8888888P"  888  888 `Y8bd8P' 888     888     "Y88b. 
+888 T88b   888  888   X88K   888     888       "888 
+888  T88b  Y88b 888 .d8""8b. Y88b. .d88P Y88b  d88P 
+888   T88b  "Y88888 888  888  "Y88888P"   "Y8888P" 
+
+arch = aarch64
+platform = aarch64-qemu-virt
+target = aarch64-unknown-none-softfloat
+smp = 4
+build_mode = release
+log_level = debug
+
+[37m[  0.002570 ruxruntime:175] [32mLogging is enabled.[m
+[m[37m[  0.003445 ruxruntime:176] [32mPrimary CPU 0 started, dtb = 0x48000000.[m
+[m[37m[  0.003752 ruxruntime:178] [32mFound physcial memory regions:[m
+[m[37m[  0.004087 ruxruntime:180] [32m  [PA:0x40080000, PA:0x400dc000) .text (READ | EXECUTE | RESERVED)[m
+[m[37m[  0.004507 ruxruntime:180] [32m  [PA:0x400dc000, PA:0x400ec000) .rodata (READ | RESERVED)[m
+[m[37m[  0.004741 ruxruntime:180] [32m  [PA:0x400ec000, PA:0x400f0000) .data .tdata .tbss .percpu (READ | WRITE | RESERVED)[m
+[m[37m[  0.004986 ruxruntime:180] [32m  [PA:0x400f0000, PA:0x402f0000) boot stack (READ | WRITE | RESERVED)[m
+[m[37m[  0.005202 ruxruntime:180] [32m  [PA:0x402f0000, PA:0x4031a000) .bss (READ | WRITE | RESERVED)[m
+[m[37m[  0.005407 ruxruntime:180] [32m  [PA:0x4031a000, PA:0xc0000000) free memory (READ | WRITE | EXECUTE | FREE)[m
+[m[37m[  0.005670 ruxruntime:180] [32m  [PA:0x9000000, PA:0x9001000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.005878 ruxruntime:180] [32m  [PA:0x8000000, PA:0x8020000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.006081 ruxruntime:180] [32m  [PA:0xa000000, PA:0xa004000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.006286 ruxruntime:180] [32m  [PA:0x10000000, PA:0x3eff0000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.006516 ruxruntime:180] [32m  [PA:0x4010000000, PA:0x4020000000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.006754 ruxruntime:180] [32m  [PA:0x9010000, PA:0x9011000) mmio (READ | WRITE | DEVICE | RESERVED)[m
+[m[37m[  0.007055 ruxruntime:368] [32mInitialize global memory allocator...[m
+[m[37m[  0.007349 ruxruntime:369] [32m  use slab allocator.[m
+[m[37m[  0.007887 axalloc:221] [36minitialize global allocator at: [0xffff00004031a000, 0xffff0000c0000000)[m
+[m[37m[  0.009617 ruxruntime:194] [32mInitialize kernel page table...[m
+[m[37m[  0.011283 ruxruntime:201] [32mInitialize platform devices...[m
+[m[37m[  0.011499 ruxhal::platform::aarch64_common::gic:60] [32mInitialize GICv2...[m
+[m[37m[  0.012067 ruxtask::api:77] [32mInitialize scheduling...[m
+[m[37m[  0.012774 ruxtask::task:265] [36mnew task: Task(1, "idle")[m
+[m[37m[  0.013045 ruxtask::task:465] [36mtaskStack::layout = Layout { size: 4096, align: 8 (1 << 3) }[m
+[m[37m[  0.013762 axalloc:127] [36mexpand heap memory: [0xffff00004032d000, 0xffff00004033d000)[m
+[m[37m[  0.014015 axalloc:127] [36mexpand heap memory: [0xffff00004033d000, 0xffff00004035d000)[m
+[m[37m[  0.014198 axalloc:127] [36mexpand heap memory: [0xffff00004035d000, 0xffff00004039d000)[m
+[m[37m[  0.014411 axalloc:127] [36mexpand heap memory: [0xffff00004039d000, 0xffff00004041d000)[m
+[m[37m[  0.015639 ruxtask::task:265] [36mnew task: Task(3, "gc")[m
+[m[37m[  0.015824 ruxtask::task:465] [36mtaskStack::layout = Layout { size: 524288, align: 8 (1 << 3) }[m
+[m[37m[  0.016114 axalloc:127] [36mexpand heap memory: [0xffff00004041d000, 0xffff00004061d000)[m
+[m[37m[  0.016698 ruxtask::api:85] [32m  use Round-robin scheduler.[m
+[m[37m[  0.017027 ruxdriver:170] [32mInitialize device drivers...[m
+[m[37m[  0.017206 ruxdriver:171] [32m  device model: static[m
+[m[37m[  0.017562 virtio_drivers::device::net::dev_raw:31] [32mDevice features CTRL_GUEST_OFFLOADS | MAC | GSO | MRG_RXBUF | STATUS | CTRL_VQ | CTRL_RX | CTRL_VLAN | CTRL_RX_EXTRA | GUEST_ANNOUNCE | CTL_MAC_ADDR | RING_INDIRECT_DESC | RING_EVENT_IDX[m
+[m[37m[  0.018584 virtio_drivers::device::net::dev_raw:41] [36mGot MAC=[52, 54, 00, 12, 34, 56], status=LINK_UP[m
+[m[37m[  0.020648 ruxdriver::bus::mmio:20] [32mregistered a new Net device at [PA:0xa003e00, PA:0xa004000): "virtio-net"[m
+[m[37m[  0.021010 ruxdriver:178] [36mnumber of NICs: 1[m
+[m[37m[  0.021176 ruxdriver:181] [36m  NIC 0: "virtio-net"[m
+[m[37m[  0.021334 ruxdriver:186] [36mnumber of block devices: 0[m
+[m[37m[  0.021503 axnet:53] [32mInitialize network subsystem...[m
+[m[37m[  0.021683 axnet:56] [32m  use NIC 0: "virtio-net"[m
+[m[37m[  0.022405 axalloc:127] [36mexpand heap memory: [0xffff000040621000, 0xffff000040a21000)[m
+[m[37m[  0.022993 axalloc:127] [36mexpand heap memory: [0xffff000040a21000, 0xffff000041221000)[m
+[m[37m[  0.024539 axnet::smoltcp_impl:341] [32mcreated net interface "eth0":[m
+[m[37m[  0.024744 axnet::smoltcp_impl:342] [32m  ether:    52-54-00-12-34-56[m
+[m[37m[  0.025066 axnet::smoltcp_impl:343] [32m  ip:       10.0.2.15/24[m
+[m[37m[  0.025309 axnet::smoltcp_impl:344] [32m  gateway:  10.0.2.2[m
+[m[37m[  0.025499 ruxruntime::mp:27] [36mstarting CPU 1...[m
+[m[37m[  0.025665 ruxhal::platform::aarch64_common::psci:122] [32mStarting CPU 1 ON ...[m
+[m[37m[  0.026145 ruxruntime::mp:27] [36mstarting CPU 2...[m
+[m[37m[  0.026296 ruxhal::platform::aarch64_common::psci:122] [32mStarting CPU 2 ON ...[m
+[m[37m[  0.026159 ruxruntime::mp:44] [32mSecondary CPU 1 started.[m
+[m[37m[  0.026807 ruxruntime::mp:44] [32mSecondary CPU 2 started.[m
+[m[37m[  0.027063 ruxruntime::mp:27] [36mstarting CPU 3...[m
+[m[37m[  0.027268 ruxhal::platform::aarch64_common::psci:122] [32mStarting CPU 3 ON ...[m
+[m[37m[  0.027593 ruxruntime::mp:44] [32mSecondary CPU 3 started.[m
+[m[37m[  0.027668 ruxruntime:262] [32mInitialize interrupt handlers...[m
+[m[37m[  0.027633 ruxruntime::mp:54] [32mSecondary CPU 1 init OK.[m
+[m[37m[  0.027962 ruxruntime::mp:54] [32mSecondary CPU 3 init OK.[m
+[m[37m[  0.027653 ruxruntime::mp:54] [32mSecondary CPU 2 init OK.[m
+[m[37m[  0.029012 ruxruntime:272] [32mPrimary CPU 0 init OK.[m
+[m[37m[  0.030212 1:3 ruxtask::run_queue:118] [36mtask block: Task(3, "gc")[m
+[m[37m[  0.031338 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 96[m
+[m[37m[  0.031680 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: SET_TID_ADDRESS[m
+[m[37m[  0.032044 0:2 ruxos_posix_api::imp::pthread:362] [36mset_tid_address <= addr: 0xffff0000402f04c8[m
+[m[37m[  0.032349 0:2 ruxos_posix_api::imp::pthread:361] [36msys_set_tid_address => Ok(2)[m
+[m[37m[  0.032921 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 198[m
+[m[37m[  0.033125 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: SOCKET[m
+[m[37m[  0.033383 0:2 ruxos_posix_api::imp::net:243] [31msys_socket <= 2 1 6[m
+[m[37m[  0.033888 0:2 ruxos_posix_api::imp::net:246] [36msys_socket => Ok(3)[m
+[m[37m[  0.034474 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 29[m
+[m[37m[  0.034654 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: IOCTL[m
+[m[37m[  0.034896 0:2 ruxos_posix_api::imp::ioctl:33] [36msys_ioctl <= fd: 1, request: 21523[m
+[m[37m[  0.035214 0:2 ruxos_posix_api::imp::ioctl:34] [36msys_ioctl => Ok(0)[m
+[m[37m[  0.035479 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 66[m
+[m[37m[  0.035648 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: WRITEV[m
+[m[37m[  0.035864 0:2 ruxos_posix_api::imp::io:68] [36msys_writev <= fd: 1, iocnt: 2[m
+[m[37m[  0.036135 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000402f0018 0[m
+[m[37m[  0.036771 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(0)[m
+[m[37m[  0.037061 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000400dc180 23[m
+[mcreate socket success!
+[37m[  0.037366 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(23)[m
+[m[37m[  0.037561 0:2 ruxos_posix_api::imp::io:69] [36msys_writev => Ok(23)[m
+[m[37m[  0.037955 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 200[m
+[m[37m[  0.038122 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: BIND[m
+[m[37m[  0.038373 0:2 ruxos_posix_api::imp::net:305] [31msys_bind <= 3 0xffff00004016b800 16[m
+[m[37m[  0.038670 0:2 ruxos_posix_api::imp::net:235] [36m    load sockaddr:0xffff00004016b800 => 127.0.0.1:5555[m
+[m[37m[  0.039092 0:2 ruxos_posix_api::imp::net:311] [31maddr = 127.0.0.1:5555[m
+[m[37m[  0.039573 0:2 ruxos_posix_api::imp::net:309] [36msys_bind => Ok(0)[m
+[m[37m[  0.039779 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 66[m
+[m[37m[  0.039956 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: WRITEV[m
+[m[37m[  0.040122 0:2 ruxos_posix_api::imp::io:68] [36msys_writev <= fd: 1, iocnt: 2[m
+[m[37m[  0.040300 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000402f0018 0[m
+[m[37m[  0.040493 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(0)[m
+[m[37m[  0.040648 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000400dc110 15[m
+[mbind success!!
+[37m[  0.040869 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(15)[m
+[m[37m[  0.041029 0:2 ruxos_posix_api::imp::io:69] [36msys_writev => Ok(15)[m
+[m[37m[  0.041218 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 201[m
+[m[37m[  0.041419 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: LISTEN[m
+[m[37m[  0.041702 0:2 ruxos_posix_api::imp::net:456] [31msys_listen <= 3 3[m
+[m[37m[  0.042213 0:2 axnet::smoltcp_impl::tcp:230] [36mTCP socket listening on 127.0.0.1:5555[m
+[m[37m[  0.042538 0:2 ruxos_posix_api::imp::net:457] [36msys_listen => Ok(0)[m
+[m[37m[  0.042741 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 66[m
+[m[37m[  0.042920 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: WRITEV[m
+[m[37m[  0.043087 0:2 ruxos_posix_api::imp::io:68] [36msys_writev <= fd: 1, iocnt: 2[m
+[m[37m[  0.043277 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000402f0018 0[m
+[m[37m[  0.043471 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(0)[m
+[m[37m[  0.043633 0:2 ruxos_posix_api::imp::io:46] [36msys_write <= 1 0xffff0000400dc0c0 16[m
+[mlistening......
+[37m[  0.043861 0:2 ruxos_posix_api::imp::io:47] [36msys_write => Ok(16)[m
+[m[37m[  0.044020 0:2 ruxos_posix_api::imp::io:69] [36msys_writev => Ok(16)[m
+[m[37m[  0.044300 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 135[m
+[m[37m[  0.044564 0:2 ruxmusl::trap:25] [31m135[m
+[m[37m[  0.044688 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.044985 0:2 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.045217 0:2 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.045594 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 222[m
+[m[37m[  0.045784 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: MMAP[m
+[m[37m[  0.046093 0:2 ruxos_posix_api::imp::mmap::api:42] [36msys_mmap <= start: 0x0, len: 0x23000, prot:0x0, flags:0x22, fd: -1[m
+[m[37m[  0.046800 0:2 ruxos_posix_api::imp::mmap::api:46] [36msys_mmap => Ok(0xffff800000000000)[m
+[m[37m[  0.047192 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 226[m
+[m[37m[  0.047369 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: MPROTECT[m
+[m[37m[  0.047611 0:2 ruxos_posix_api::imp::mmap::api:194] [36msys_mprotect <= addr: 0xffff800000002000, len: 0x21000, prot: 3[m
+[m[37m[  0.048721 0:2 ruxos_posix_api::imp::mmap::api:199] [36msys_mprotect => Ok(0)[m
+[m[37m[  0.049064 0:2 ruxhal::arch::aarch64::trap:110] [36mmapped vaddr in Page Fault: FFFF800000022FF8 WRITE[m
+[m[37m[  0.049733 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 135[m
+[m[37m[  0.049893 0:2 ruxmusl::trap:25] [31m135[m
+[m[37m[  0.049986 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.050134 0:2 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.050276 0:2 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.050483 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 220[m
+[m[37m[  0.050643 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: CLONE[m
+[m[37m[  0.050861 0:2 ruxos_posix_api::imp::pthread:260] [31msys_clone <= flags: 7d0f00, stack: 0xffff800000022ef0, ctid: ffff0000402f04c8[m
+[m[37m[  0.051284 0:2 ruxtask::task:242] [36mnew task: Task(7, "")[m
+[m[37m[  0.051499 0:2 ruxtask::task:465] [36mtaskStack::layout = Layout { size: 524288, align: 8 (1 << 3) }[m
+[m[37m[  0.052242 0:2 ruxtask::run_queue:43] [36mtask spawn: Task(7, "")[m
+[m[37m[  0.052575 0:2 ruxos_posix_api::imp::pthread:265] [36msys_clone => Ok(7)[m
+[m[37m[  0.052948 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 135[m
+[m[37m[  0.053150 0:2 ruxmusl::trap:25] [31m135[m
+[m[37m[  0.053255 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.053415 0:2 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.053568 0:2 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.053924 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 214[m
+[m[37m[  0.054098 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[  0.054203 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.054363 0:2 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.054515 0:2 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.054718 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 214[m
+[m[37m[  0.054892 0:2 ruxmusl::trap:25] [31m214[m
+[m[37m[  0.054998 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.055181 0:2 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.055346 0:2 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.055573 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 222[m
+[m[37m[  0.055763 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: MMAP[m
+[m[37m[  0.055963 0:2 ruxos_posix_api::imp::mmap::api:42] [36msys_mmap <= start: 0x0, len: 0x1000, prot:0x3, flags:0x22, fd: -1[m
+[m[37m[  0.056268 0:2 ruxos_posix_api::imp::mmap::api:46] [36msys_mmap => Ok(0xffff800000024000)[m
+[m[37m[  0.056540 0:2 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 202[m
+[m[37m[  0.056723 0:2 ruxmusl::aarch64:8] [36msyscall <= syscall_name: ACCEPT[m
+[m[37m[  0.056991 0:2 ruxos_posix_api::imp::net:471] [31msys_accept <= 3 0xffff00004016b810 0xffff00004016b7e4[m
+[m[37m[  0.057385 0:2 ruxos_posix_api::imp::net:480] [31mstage 1[m
+[m[37m[  0.057596 0:2 axnet::smoltcp_impl::tcp:515] [31mcontinue block 1[m
+[m[37m[  0.057834 0:2 axnet::smoltcp_impl:132] [36mstart poll eth0[m
+[m[37m[  0.058387 0:2 axnet::smoltcp_impl:134] [36mend poll eth0[m
+[m[37m[  0.058711 0:2 axnet::smoltcp_impl::tcp:517] [31mcontinue block 2[m
+[m[37m[  0.059110 0:7 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 135[m
+[m[37m[  0.059301 0:7 ruxmusl::trap:25] [31m135[m
+[m[37m[  0.059491 0:7 ruxmusl::aarch64:8] [36msyscall <= syscall_name: INVALID[m
+[m[37m[  0.059641 0:7 ruxos_posix_api::imp:46] [36msys_invalid <= id: 999[m
+[m[37m[  0.059483 2:2 axnet::smoltcp_impl::tcp:515] [31mcontinue block 1[m
+[m[37m[  0.059781 0:7 ruxos_posix_api::imp:47] [32msys_invalid => Err(ENOSYS)[m
+[m[37m[  0.059929 2:2 axnet::smoltcp_impl:132] [36mstart poll eth0[m
+[m[37m[  0.060262 2:2 axnet::smoltcp_impl:134] [36mend poll eth0[m
+[m[37m[  0.060478 2:2 axnet::smoltcp_impl::tcp:517] [31mcontinue block 2[m
+[m[37m[  0.060481 0:7 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 198[m
+[m[37m[  0.060930 0:7 ruxmusl::aarch64:8] [36msyscall <= syscall_name: SOCKET[m
+[m[37m[  0.060931 2:2 axnet::smoltcp_impl::tcp:515] [31mcontinue block 1[m
+[m[37m[  0.061143 0:7 ruxos_posix_api::imp::net:243] [31msys_socket <= 2 1 0[m
+[m[37m[  0.061603 2:2 axnet::smoltcp_impl:132] [36mstart poll eth0[m
+[m[37m[  0.061849 0:7 ruxos_posix_api::imp::net:246] [36msys_socket => Ok(4)[m
+[m[37m[  0.062125 2:2 axnet::smoltcp_impl:134] [36mend poll eth0[m
+[m[37m[  0.062174 0:7 ruxhal::arch::aarch64::trap:62] [36mHandle supervisor call 203[m
+[m[37m[  0.062585 0:7 ruxmusl::aarch64:8] [36msyscall <= syscall_name: CONNECT[m
+[m[37m[  0.062585 2:2 axnet::smoltcp_impl::tcp:517] [31mcontinue block 2[m
+[m[37m[  0.062912 0:7 ruxos_posix_api::imp::net:325] [31msys_connect <= 4 0xffff000040afef60 16[m
+[m[37m[  0.063177 2:2 axnet::smoltcp_impl::tcp:515] [31mcontinue block 1[m
+[m[37m[  0.063525 2:2 axnet::smoltcp_impl:132] [36mstart poll eth0[m
+[m[37m[  0.063526 0:7 ruxos_posix_api::imp::net:235] [36m    load sockaddr:0xffff000040afef60 => 127.0.0.1:5555[m
+[m[37m[  0.064013 2:2 axnet::smoltcp_impl:134] [36mend poll eth0[m
+[m[37m[  0.064158 0:7 ruxos_posix_api::imp::net:331] [31maddr: 127.0.0.1:5555[m
+[m[37m[  0.064536 2:2 axnet::smoltcp_impl::tcp:517] [31mcontinue block 2[m
+[m[37m[  0.064739 2:2 axnet::smoltcp_impl::tcp:515] [31mcontinue block 1[m
+[m[37m[  0.064941 2:2 axnet::smoltcp_impl:132] [36mstart poll eth0[m
+[m[37m[  0.065352 2:2 ruxtask::run_queue:118] [36mtask block: Task(2, "main")[m
+[m[37m[  0.065894 0:7 ruxtask::run_queue:132] [36mtask unblock: Task(2, "main")[m
+[m[37m[  0.066396 0:7 ruxtask::run_queue:83] [36mcurrent task is to be preempted: Task(7, ""), allow=true[m
+[m[37m[  0.066792 0:7 axnet::smoltcp_impl:109] [36msocket #0: created[m
+[m[37m[  0.067399 0:7 ruxtask::run_queue:118] [36mtask block: Task(7, "")[m
+[m[37m[  0.067817 0:2 ruxtask::run_queue:118] [36mtask block: Task(2, "main")[m
+[mQEMU: Terminated
+

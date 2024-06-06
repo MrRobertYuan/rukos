@@ -20,7 +20,7 @@ use axio::prelude::*;
 ///
 /// Return the read size if success.
 pub fn sys_read(fd: c_int, buf: *mut c_void, count: usize) -> ctypes::ssize_t {
-    debug!("sys_read <= {} {:#x} {}", fd, buf as usize, count);
+    error!("sys_read <= {} {:#x} {}", fd, buf as usize, count);
     syscall_body!(sys_read, {
         if buf.is_null() {
             return Err(LinuxError::EFAULT);

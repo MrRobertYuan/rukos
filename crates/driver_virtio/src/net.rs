@@ -14,6 +14,7 @@ use driver_net::{EthernetAddress, NetBuf, NetBufBox, NetBufPool, NetBufPtr, NetD
 use virtio_drivers::{device::net::VirtIONetRaw as InnerDev, transport::Transport, Hal};
 
 extern crate alloc;
+use::log::*;
 
 const NET_BUF_LEN: usize = 1526;
 
@@ -118,6 +119,7 @@ impl<H: Hal, T: Transport, const QS: usize> NetDriverOps for VirtIoNetDev<H, T, 
     }
 
     fn recycle_rx_buffer(&mut self, rx_buf: NetBufPtr) -> DevResult {
+        error!("rx!");
         let mut rx_buf = unsafe { NetBuf::from_buf_ptr(rx_buf) };
         // Safe because we take the ownership of `rx_buf` back to `rx_buffers`,
         // it lives as long as the queue.
@@ -132,10 +134,12 @@ impl<H: Hal, T: Transport, const QS: usize> NetDriverOps for VirtIoNetDev<H, T, 
             return Err(DevError::BadState);
         }
         self.rx_buffers[new_token as usize] = Some(rx_buf);
+        error!("rx end!");
         Ok(())
     }
 
     fn recycle_tx_buffers(&mut self) -> DevResult {
+        // error!("tx!");
         while let Some(token) = self.inner.poll_transmit() {
             let tx_buf = self.tx_buffers[token as usize]
                 .take()
@@ -148,6 +152,7 @@ impl<H: Hal, T: Transport, const QS: usize> NetDriverOps for VirtIoNetDev<H, T, 
             // Recycle the buffer.
             self.free_tx_bufs.push(tx_buf);
         }
+        // error!("tx end!");
         Ok(())
     }
 

@@ -38,6 +38,21 @@ pub struct DirBuilder {
 }
 
 impl<'a> ReadDir<'a> {
+    pub(super) fn new_with_directory(path: &'a str, dir: fops::Directory) -> Result<Self> {
+        let mut opts = fops::OpenOptions::new();
+        opts.read(true);
+        const EMPTY: fops::DirEntry = fops::DirEntry::default();
+        let dirent_buf = [EMPTY; 31];
+        Ok(ReadDir {
+            path,
+            inner: dir,
+            end_of_stream: false,
+            buf_pos: 0,
+            buf_end: 0,
+            dirent_buf,
+        })
+    }
+    
     pub(super) fn new(path: &'a str) -> Result<Self> {
         let mut opts = fops::OpenOptions::new();
         opts.read(true);

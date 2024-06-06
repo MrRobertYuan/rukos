@@ -131,7 +131,9 @@ impl TcpSocket {
     ///
     /// The local port is generated automatically.
     pub fn connect(&self, remote_addr: SocketAddr) -> AxResult {
+        error!("connect stage 1");
         self.update_state(STATE_CLOSED, STATE_CONNECTING, || {
+            error!("block 1");
             // SAFETY: no other threads can read or write these fields.
             let handle = unsafe { self.handle.get().read() }
                 .unwrap_or_else(|| SOCKET_SET.add(SocketSetWrapper::new_tcp_socket()));
@@ -140,15 +142,23 @@ impl TcpSocket {
             let remote_endpoint = from_core_sockaddr(remote_addr);
             let bound_endpoint = self.bound_endpoint()?;
             let iface = &ETH0.iface;
+            error!("block 2");
             let (local_endpoint, remote_endpoint) = SOCKET_SET
                 .with_socket_mut::<tcp::Socket, _, _>(handle, |socket| {
+                    error!("block 3");
+                    let mut binding = iface.lock();
+                    let context = binding.context();
+                    //let context = iface.lock().context();
+                    error!("block 4");
                     socket
-                        .connect(iface.lock().context(), remote_endpoint, bound_endpoint)
+                        .connect(context, remote_endpoint, bound_endpoint)
                         .or_else(|e| match e {
                             ConnectError::InvalidState => {
+                                error!("tcp error 1");
                                 ax_err!(BadState, "socket connect() failed")
                             }
                             ConnectError::Unaddressable => {
+                                error!("tcp error 2");
                                 ax_err!(ConnectionRefused, "socket connect() failed")
                             }
                         })?;
@@ -157,6 +167,7 @@ impl TcpSocket {
                         socket.remote_endpoint().unwrap(),
                     ))
                 })?;
+            error!("block 5");
             unsafe {
                 // SAFETY: no other threads can read or write these fields as we
                 // have changed the state to `BUSY`.
@@ -168,21 +179,26 @@ impl TcpSocket {
         })
         .unwrap_or_else(|_| ax_err!(AlreadyExists, "socket connect() failed: already connected"))?; // EISCONN
 
+        error!("connect stage 2");
         self.block_on(|| {
             let PollState { writable, .. } = self.poll_connect()?;
             if !writable {
                 // When set to non_blocking, directly return inporgress
                 if self.is_nonblocking() {
+                    error!("nonblocking 1");
                     return Err(AxError::InProgress);
                 }
                 Err(AxError::WouldBlock)
             } else if self.get_state() == STATE_CONNECTED {
+                error!("success return 1");
                 Ok(())
             } else {
                 // When set to non_blocking, directly return inporgress
                 if self.is_nonblocking() {
+                    error!("nonblocking 2");
                     return Err(AxError::InProgress);
                 }
+                error!("connection refused 1, {:?}", self.get_state());
                 ax_err!(ConnectionRefused, "socket connect() failed")
             }
         })
@@ -306,6 +322,7 @@ impl TcpSocket {
                     // data available
                     // TODO: use socket.recv(|buf| {...})
                     if flags & MSG_DONTWAIT != 0 {
+                        error!("set here MSG_DONTWAIT");
                         self.set_nonblocking(true);
                     }
                     if flags & MSG_PEEK != 0 {
@@ -360,6 +377,7 @@ impl TcpSocket {
 
     /// Whether the socket is readable or writable.
     pub fn poll(&self) -> AxResult<PollState> {
+        debug!("use smoltcp poll");
         match self.get_state() {
             STATE_CONNECTING => self.poll_connect(),
             STATE_CONNECTED => self.poll_stream(),
@@ -448,27 +466,35 @@ impl TcpSocket {
     fn poll_connect(&self) -> AxResult<PollState> {
         // SAFETY: `self.handle` should be initialized above.
         let handle = unsafe { self.handle.get().read().unwrap() };
+        // error!("arrive here");
         let writable =
-            SOCKET_SET.with_socket::<tcp::Socket, _, _>(handle, |socket| match socket.state() {
-                State::SynSent => false, // wait for connection
-                State::Established => {
-                    self.set_state(STATE_CONNECTED); // connected
-                    debug!(
-                        "TCP socket {}: connected to {}",
-                        handle,
-                        socket.remote_endpoint().unwrap(),
-                    );
-                    true
-                }
-                _ => {
-                    unsafe {
-                        self.local_addr.get().write(UNSPECIFIED_ENDPOINT);
-                        self.peer_addr.get().write(UNSPECIFIED_ENDPOINT);
+            SOCKET_SET.with_socket::<tcp::Socket, _, _>(handle, |socket| {
+                // error!("1");
+                match socket.state() {
+                    State::SynSent => {false}, // wait for connection
+                    State::Established => {
+                        error!("2");
+                        self.set_state(STATE_CONNECTED); // connected
+                        error!("3");
+                        debug!(
+                            "TCP socket {}: connected to {}",
+                            handle,
+                            socket.remote_endpoint().unwrap(),
+                        );
+                        true
                     }
-                    self.set_state(STATE_CLOSED); // connection failed
-                    true
+                    _ => {
+                        error!("4");
+                        unsafe {
+                            self.local_addr.get().write(UNSPECIFIED_ENDPOINT);
+                            self.peer_addr.get().write(UNSPECIFIED_ENDPOINT);
+                        }
+                        self.set_state(STATE_CLOSED); // connection failed
+                        true
+                    }
                 }
-            });
+            }
+        );
         Ok(PollState {
             readable: false,
             writable,
@@ -508,11 +534,13 @@ impl TcpSocket {
             f()
         } else {
             loop {
+                // error!("continue block 1");
                 SOCKET_SET.poll_interfaces();
+                // error!("continue block 2");
                 match f() {
-                    Ok(t) => return Ok(t),
-                    Err(AxError::WouldBlock) => ruxtask::yield_now(),
-                    Err(e) => return Err(e),
+                    Ok(t) => {return Ok(t)},
+                    Err(AxError::WouldBlock) => {ruxtask::yield_now()},
+                    Err(e) => {return Err(e)},
                 }
             }
         }

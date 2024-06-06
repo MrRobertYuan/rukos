@@ -1,0 +1,11 @@
+
+/lib/python3.11/test/test_asyncio/test_base_events.py
+/lib/python3.11/test/test_asyncio/test_events.py
+/lib/python3.11/test/test_asyncio/test_futures.py
+Ran 155 tests in 16.894s
+
+OK
+[37m[1716259549.405240 3:2 ruxmusl::trap:25] [31m94[m
+[m
+/lib/python3.11/test/test_asyncio/test_base_events.py
+/lib/python3.11/test/test_asyncio/test_base_events.py

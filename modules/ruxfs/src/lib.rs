@@ -94,9 +94,9 @@ pub fn prepare_commonfs(mount_points: &mut Vec<self::root::MountPoint>) {
     let mount_point = MountPoint::new("/dev", mounts::devfs());
     mount_points.push(mount_point);
 
-    #[cfg(feature = "ramfs")]
-    let mount_point = MountPoint::new("/tmp", mounts::ramfs());
-    mount_points.push(mount_point);
+    // #[cfg(feature = "ramfs")]
+    // let mount_point = MountPoint::new("/tmp", mounts::ramfs());
+    // mount_points.push(mount_point);
 
     // Mount another ramfs as procfs
     #[cfg(feature = "procfs")]

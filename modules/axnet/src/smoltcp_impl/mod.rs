@@ -45,6 +45,7 @@ macro_rules! env_or_default {
 }
 
 const IP: &str = env_or_default!("RUX_IP");
+const LOCAL_IP: &str = "10.0.2.16";
 const GATEWAY: &str = env_or_default!("RUX_GW");
 const DNS_SEVER: &str = "8.8.8.8";
 const IP_PREFIX: u8 = 24;
@@ -123,13 +124,18 @@ impl<'a> SocketSetWrapper<'a> {
     where
         F: FnOnce(&mut T) -> R,
     {
+        // error!("with_socket_mut stage 1");
         let mut set = self.0.lock();
+        // error!("with_socket_mut stage 2");
         let socket = set.get_mut(handle);
+        // error!("with_socket_mut stage 3");
         f(socket)
     }
 
     pub fn poll_interfaces(&self) {
+        // error!("start poll eth0");
         ETH0.poll(&self.0);
+        // error!("end poll eth0");
     }
 
     pub fn remove(&self, handle: SocketHandle) {
@@ -180,9 +186,13 @@ impl InterfaceWrapper {
     }
 
     pub fn poll(&self, sockets: &Mutex<SocketSet>) {
+        // error!("lock0");
         let mut dev = self.dev.lock();
-        let mut iface = self.iface.lock();
+        // error!("lock1");
         let mut sockets = sockets.lock();
+        // error!("lock2");
+        let mut iface = self.iface.lock();
+        // error!("lock3");
         let timestamp = Self::current_time();
         iface.poll(timestamp, dev.deref_mut(), &mut sockets);
     }
@@ -248,9 +258,9 @@ struct AxNetRxToken<'a>(&'a RefCell<AxNetDevice>, NetBufPtr);
 struct AxNetTxToken<'a>(&'a RefCell<AxNetDevice>);
 
 impl<'a> RxToken for AxNetRxToken<'a> {
-    fn preprocess(&self, sockets: &mut SocketSet<'_>) {
-        snoop_tcp_packet(self.1.packet(), sockets).ok();
-    }
+    // fn preprocess(&self, sockets: &mut SocketSet<'_>) {
+    //     snoop_tcp_packet(self.1.packet(), sockets).ok();
+    // }
 
     fn consume<R, F>(self, f: F) -> R
     where
@@ -324,16 +334,18 @@ pub(crate) fn init(net_dev: AxNetDevice) {
     let eth0 = InterfaceWrapper::new("eth0", net_dev, ether_addr);
 
     let ip = IP.parse().expect("invalid IP address");
+    let local_ip = LOCAL_IP.parse().expect("invalid IP address");
     let gateway = GATEWAY.parse().expect("invalid gateway IP address");
     eth0.setup_ip_addr(ip, IP_PREFIX);
+    eth0.setup_ip_addr(local_ip, IP_PREFIX);
     eth0.setup_gateway(gateway);
 
     ETH0.init_by(eth0);
     SOCKET_SET.init_by(SocketSetWrapper::new());
     LISTEN_TABLE.init_by(ListenTable::new());
 
-    info!("created net interface {:?}:", ETH0.name());
-    info!("  ether:    {}", ETH0.ethernet_address());
-    info!("  ip:       {}/{}", ip, IP_PREFIX);
-    info!("  gateway:  {}", gateway);
+    error!("created net interface {:?}:", ETH0.name());
+    error!("  ether:    {}", ETH0.ethernet_address());
+    error!("  ip:       {}/{}", ip, IP_PREFIX);
+    error!("  gateway:  {}", gateway);
 }

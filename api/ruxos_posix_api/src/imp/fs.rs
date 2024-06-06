@@ -65,6 +65,7 @@ impl FileLike for File {
         // TODO: implement real inode.
         let st_ino = metadata.size() + st_mode as u64;
 
+        // let now = ruxhal::time::current_time().into();
         Ok(ctypes::stat {
             st_ino,
             st_nlink: 1,
@@ -74,6 +75,9 @@ impl FileLike for File {
             st_size: metadata.size() as _,
             st_blocks: metadata.blocks() as _,
             st_blksize: 512,
+            // st_atime: now,
+            // st_mtime: now,
+            // st_ctime: now,
             ..Default::default()
         })
     }
@@ -193,7 +197,7 @@ fn flags_to_options(flags: c_int, _mode: ctypes::mode_t) -> OpenOptions {
 /// has the maximum number of files open.
 pub fn sys_open(filename: *const c_char, flags: c_int, mode: ctypes::mode_t) -> c_int {
     let filename = char_ptr_to_str(filename);
-    debug!("sys_open <= {:?} {:#o} {:#o}", filename, flags, mode);
+    error!("sys_open <= {:?} {:#o} {:#o}", filename, flags, mode);
     syscall_body!(sys_open, {
         let options = flags_to_options(flags, mode);
         let file = ruxfs::fops::File::open(filename?, &options)?;
@@ -340,6 +344,12 @@ pub unsafe fn sys_stat(path: *const c_char, buf: *mut core::ffi::c_void) -> c_in
                 (*kst).st_size = st.st_size;
                 (*kst).st_blocks = st.st_blocks;
                 (*kst).st_blksize = st.st_blksize;
+                (*kst).st_atime_sec = st.st_atime.tv_sec;
+                (*kst).st_atime_nsec = st.st_atime.tv_nsec;
+                (*kst).st_mtime_sec = st.st_mtime.tv_sec;
+                (*kst).st_mtime_nsec = st.st_mtime.tv_nsec;
+                (*kst).st_ctime_sec = st.st_ctime.tv_sec;
+                (*kst).st_ctime_nsec = st.st_ctime.tv_nsec;
             }
             Ok(0)
         }
@@ -431,6 +441,12 @@ pub unsafe fn sys_newfstatat(
             (*kst).st_size = st.st_size;
             (*kst).st_blocks = st.st_blocks;
             (*kst).st_blksize = st.st_blksize;
+            (*kst).st_atime_sec = st.st_atime.tv_sec;
+            (*kst).st_atime_nsec = st.st_atime.tv_nsec;
+            (*kst).st_mtime_sec = st.st_mtime.tv_sec;
+            (*kst).st_mtime_nsec = st.st_mtime.tv_nsec;
+            (*kst).st_ctime_sec = st.st_ctime.tv_sec;
+            (*kst).st_ctime_nsec = st.st_ctime.tv_nsec;
         }
         Ok(0)
     })
@@ -484,6 +500,17 @@ pub fn sys_renameat(oldfd: c_int, old: *const c_char, newfd: c_int, new: *const 
     assert_eq!(newfd, ctypes::AT_FDCWD as c_int);
     syscall_body!(sys_renameat, {
         ruxfs::api::rename(old_path?, new_path?)?;
+        Ok(0)
+    })
+}
+
+pub fn sys_ftruncate(fd: c_int, length: ctypes::off_t) -> c_int {
+    debug!(
+        "sys_ftruncate <= fd: {}, length: {:?}",
+        fd, length
+    );
+    syscall_body!(sys_ftruncate, {
+        let _ = File::from_fd(fd)?.inner.lock().truncate(length as u64)?;
         Ok(0)
     })
 }
@@ -546,6 +573,23 @@ pub fn sys_mkdirat(fd: c_int, pathname: *const c_char, mode: ctypes::mode_t) -> 
     sys_mkdir(pathname, mode)
 }
 
+/// Changes the mode of the file referred to by the open file descriptor fd
+pub fn sys_fchmodat(
+    fd: c_int,
+    path: *const c_char,
+    mode: ctypes::mode_t,
+    flag: c_int,
+) -> c_int {
+    debug!(
+        "sys_fchmodat <= fd: {}, path: {:?}, mode: {}, flag: {}",
+        fd,
+        char_ptr_to_str(path),
+        mode,
+        flag
+    );
+    syscall_body!(sys_fchmodat, Ok(0))
+}
+
 /// Changes the ownership of the file referred to by the open file descriptor fd
 pub fn sys_fchownat(
     fd: c_int,
@@ -563,6 +607,32 @@ pub fn sys_fchownat(
         flag
     );
     syscall_body!(sys_fchownat, Ok(0))
+}
+
+pub fn sys_sendfile(
+    outfd: c_int,
+    infd: c_int,
+    offset: *mut ctypes::off_t,
+    count: ctypes::size_t,
+ ) -> ctypes::ssize_t {
+    error!("sys_sendfile <= outfd:{}, infd:{}, offset:{:?}, count:{}", outfd, infd, offset as usize, count);
+    syscall_body!(sys_sendfile, {
+        let ref mut buf = [0u8; 4196];
+        if count > 4196 {
+            return Err(LinuxError::EINVAL);
+        }
+        let dst = unsafe { core::slice::from_raw_parts_mut(buf as *mut u8, count) };
+        if offset.is_null() {
+            unsafe{
+                let size = File::from_fd(infd)?.inner.lock().read_at(*offset as u64, dst)?;
+                *offset = *offset + size as i64;
+            }
+        }
+        else{
+            let _size = File::from_fd(infd)?.inner.lock().read(dst)?;
+        }
+        Ok(get_file_like(outfd)?.write(dst)? as ctypes::ssize_t)
+    })
 }
 
 /// read value of a symbolic link relative to directory file descriptor
