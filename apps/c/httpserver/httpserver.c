@@ -9,7 +9,7 @@
  
 int client_num=0;//当前与服务器端连接的客户端的数目
 #define PORT 5556			//目标地址端口号
-#define ADDR "10.0.2.16"    //目标地址IP
+#define ADDR "127.0.0.1"    //目标地址IP
  
 void* handle_client(void* arg){//参数与返回值都必须是void*类型（线程函数的特点）
 	int len;//收到的字节数

@@ -37,6 +37,17 @@ const STATE_LISTENING: u8 = 4;
 const MSG_PEEK: i32 = 2;
 const MSG_DONTWAIT: i32 = 4;
 
+macro_rules! env_or_default {
+    ($key:literal) => {
+        match option_env!($key) {
+            Some(val) => val,
+            None => "",
+        }
+    };
+}
+
+const IP: &str = env_or_default!("RUX_IP");
+
 /// A TCP socket that provides POSIX-like APIs.
 ///
 /// - [`connect`] is for TCP clients.
@@ -456,7 +467,12 @@ impl TcpSocket {
         };
         assert_ne!(port, 0);
         let addr = if !is_unspecified(local_addr.addr) {
-            Some(local_addr.addr)
+            if local_addr.addr == "127.0.0.1".parse().expect("invalid"){
+                Some(IP.parse().expect("invalid"))
+            }
+            else{
+                Some(local_addr.addr)
+            }
         } else {
             None
         };

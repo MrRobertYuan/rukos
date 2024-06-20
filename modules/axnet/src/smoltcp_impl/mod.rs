@@ -258,9 +258,9 @@ struct AxNetRxToken<'a>(&'a RefCell<AxNetDevice>, NetBufPtr);
 struct AxNetTxToken<'a>(&'a RefCell<AxNetDevice>);
 
 impl<'a> RxToken for AxNetRxToken<'a> {
-    // fn preprocess(&self, sockets: &mut SocketSet<'_>) {
-    //     snoop_tcp_packet(self.1.packet(), sockets).ok();
-    // }
+    fn preprocess(&self, sockets: &mut SocketSet<'_>) {
+        snoop_tcp_packet(self.1.packet(), sockets).ok();
+    }
 
     fn consume<R, F>(self, f: F) -> R
     where

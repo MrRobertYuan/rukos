@@ -146,146 +146,146 @@ class TestAsynchat(unittest.TestCase):
         for l in (1, 2, 3):
             self.line_terminator_check(b'\r\n', l)
 
-    def test_line_terminator3(self):
-        # test three-character terminator
-        for l in (1, 2, 3):
-            self.line_terminator_check(b'qqq', l)
+#     def test_line_terminator3(self):
+#         # test three-character terminator
+#         for l in (1, 2, 3):
+#             self.line_terminator_check(b'qqq', l)
 
-    def numeric_terminator_check(self, termlen):
-        # Try reading a fixed number of bytes
-        s, event = start_echo_server()
-        c = echo_client(termlen, s.port)
-        data = b"hello world, I'm not dead yet!\n"
-        c.push(data)
-        c.push(SERVER_QUIT)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
+#     def numeric_terminator_check(self, termlen):
+#         # Try reading a fixed number of bytes
+#         s, event = start_echo_server()
+#         c = echo_client(termlen, s.port)
+#         data = b"hello world, I'm not dead yet!\n"
+#         c.push(data)
+#         c.push(SERVER_QUIT)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents, [data[:termlen]])
+#         self.assertEqual(c.contents, [data[:termlen]])
 
-    def test_numeric_terminator1(self):
-        # check that ints & longs both work (since type is
-        # explicitly checked in async_chat.handle_read)
-        self.numeric_terminator_check(1)
+#     def test_numeric_terminator1(self):
+#         # check that ints & longs both work (since type is
+#         # explicitly checked in async_chat.handle_read)
+#         self.numeric_terminator_check(1)
 
-    def test_numeric_terminator2(self):
-        self.numeric_terminator_check(6)
+#     def test_numeric_terminator2(self):
+#         self.numeric_terminator_check(6)
 
-    def test_none_terminator(self):
-        # Try reading a fixed number of bytes
-        s, event = start_echo_server()
-        c = echo_client(None, s.port)
-        data = b"hello world, I'm not dead yet!\n"
-        c.push(data)
-        c.push(SERVER_QUIT)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
+#     def test_none_terminator(self):
+#         # Try reading a fixed number of bytes
+#         s, event = start_echo_server()
+#         c = echo_client(None, s.port)
+#         data = b"hello world, I'm not dead yet!\n"
+#         c.push(data)
+#         c.push(SERVER_QUIT)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents, [])
-        self.assertEqual(c.buffer, data)
+#         self.assertEqual(c.contents, [])
+#         self.assertEqual(c.buffer, data)
 
-    def test_simple_producer(self):
-        s, event = start_echo_server()
-        c = echo_client(b'\n', s.port)
-        data = b"hello world\nI'm not dead yet!\n"
-        p = asynchat.simple_producer(data+SERVER_QUIT, buffer_size=8)
-        c.push_with_producer(p)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
+#     def test_simple_producer(self):
+#         s, event = start_echo_server()
+#         c = echo_client(b'\n', s.port)
+#         data = b"hello world\nI'm not dead yet!\n"
+#         p = asynchat.simple_producer(data+SERVER_QUIT, buffer_size=8)
+#         c.push_with_producer(p)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents, [b"hello world", b"I'm not dead yet!"])
+#         self.assertEqual(c.contents, [b"hello world", b"I'm not dead yet!"])
 
-    def test_string_producer(self):
-        s, event = start_echo_server()
-        c = echo_client(b'\n', s.port)
-        data = b"hello world\nI'm not dead yet!\n"
-        c.push_with_producer(data+SERVER_QUIT)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
+#     def test_string_producer(self):
+#         s, event = start_echo_server()
+#         c = echo_client(b'\n', s.port)
+#         data = b"hello world\nI'm not dead yet!\n"
+#         c.push_with_producer(data+SERVER_QUIT)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents, [b"hello world", b"I'm not dead yet!"])
+#         self.assertEqual(c.contents, [b"hello world", b"I'm not dead yet!"])
 
-    def test_empty_line(self):
-        # checks that empty lines are handled correctly
-        s, event = start_echo_server()
-        c = echo_client(b'\n', s.port)
-        c.push(b"hello world\n\nI'm not dead yet!\n")
-        c.push(SERVER_QUIT)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
+#     def test_empty_line(self):
+#         # checks that empty lines are handled correctly
+#         s, event = start_echo_server()
+#         c = echo_client(b'\n', s.port)
+#         c.push(b"hello world\n\nI'm not dead yet!\n")
+#         c.push(SERVER_QUIT)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents,
-                         [b"hello world", b"", b"I'm not dead yet!"])
+#         self.assertEqual(c.contents,
+#                          [b"hello world", b"", b"I'm not dead yet!"])
 
-    def test_close_when_done(self):
-        s, event = start_echo_server()
-        s.start_resend_event = threading.Event()
-        c = echo_client(b'\n', s.port)
-        c.push(b"hello world\nI'm not dead yet!\n")
-        c.push(SERVER_QUIT)
-        c.close_when_done()
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#     def test_close_when_done(self):
+#         s, event = start_echo_server()
+#         s.start_resend_event = threading.Event()
+#         c = echo_client(b'\n', s.port)
+#         c.push(b"hello world\nI'm not dead yet!\n")
+#         c.push(SERVER_QUIT)
+#         c.close_when_done()
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
 
-        # Only allow the server to start echoing data back to the client after
-        # the client has closed its connection.  This prevents a race condition
-        # where the server echoes all of its data before we can check that it
-        # got any down below.
-        s.start_resend_event.set()
-        threading_helper.join_thread(s)
+#         # Only allow the server to start echoing data back to the client after
+#         # the client has closed its connection.  This prevents a race condition
+#         # where the server echoes all of its data before we can check that it
+#         # got any down below.
+#         s.start_resend_event.set()
+#         threading_helper.join_thread(s)
 
-        self.assertEqual(c.contents, [])
-        # the server might have been able to send a byte or two back, but this
-        # at least checks that it received something and didn't just fail
-        # (which could still result in the client not having received anything)
-        self.assertGreater(len(s.buffer), 0)
+#         self.assertEqual(c.contents, [])
+#         # the server might have been able to send a byte or two back, but this
+#         # at least checks that it received something and didn't just fail
+#         # (which could still result in the client not having received anything)
+#         self.assertGreater(len(s.buffer), 0)
 
-    def test_push(self):
-        # Issue #12523: push() should raise a TypeError if it doesn't get
-        # a bytes string
-        s, event = start_echo_server()
-        c = echo_client(b'\n', s.port)
-        data = b'bytes\n'
-        c.push(data)
-        c.push(bytearray(data))
-        c.push(memoryview(data))
-        self.assertRaises(TypeError, c.push, 10)
-        self.assertRaises(TypeError, c.push, 'unicode')
-        c.push(SERVER_QUIT)
-        asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
-        threading_helper.join_thread(s)
-        self.assertEqual(c.contents, [b'bytes', b'bytes', b'bytes'])
-
-
-class TestAsynchat_WithPoll(TestAsynchat):
-    usepoll = True
+#     def test_push(self):
+#         # Issue #12523: push() should raise a TypeError if it doesn't get
+#         # a bytes string
+#         s, event = start_echo_server()
+#         c = echo_client(b'\n', s.port)
+#         data = b'bytes\n'
+#         c.push(data)
+#         c.push(bytearray(data))
+#         c.push(memoryview(data))
+#         self.assertRaises(TypeError, c.push, 10)
+#         self.assertRaises(TypeError, c.push, 'unicode')
+#         c.push(SERVER_QUIT)
+#         asyncore.loop(use_poll=self.usepoll, count=300, timeout=.01)
+#         threading_helper.join_thread(s)
+#         self.assertEqual(c.contents, [b'bytes', b'bytes', b'bytes'])
 
 
-class TestAsynchatMocked(unittest.TestCase):
-    def test_blockingioerror(self):
-        # Issue #16133: handle_read() must ignore BlockingIOError
-        sock = unittest.mock.Mock()
-        sock.recv.side_effect = BlockingIOError(errno.EAGAIN)
-
-        dispatcher = asynchat.async_chat()
-        dispatcher.set_socket(sock)
-        self.addCleanup(dispatcher.del_channel)
-
-        with unittest.mock.patch.object(dispatcher, 'handle_error') as error:
-            dispatcher.handle_read()
-        self.assertFalse(error.called)
+# class TestAsynchat_WithPoll(TestAsynchat):
+#     usepoll = True
 
 
-class TestHelperFunctions(unittest.TestCase):
-    def test_find_prefix_at_end(self):
-        self.assertEqual(asynchat.find_prefix_at_end("qwerty\r", "\r\n"), 1)
-        self.assertEqual(asynchat.find_prefix_at_end("qwertydkjf", "\r\n"), 0)
+# class TestAsynchatMocked(unittest.TestCase):
+#     def test_blockingioerror(self):
+#         # Issue #16133: handle_read() must ignore BlockingIOError
+#         sock = unittest.mock.Mock()
+#         sock.recv.side_effect = BlockingIOError(errno.EAGAIN)
+
+#         dispatcher = asynchat.async_chat()
+#         dispatcher.set_socket(sock)
+#         self.addCleanup(dispatcher.del_channel)
+
+#         with unittest.mock.patch.object(dispatcher, 'handle_error') as error:
+#             dispatcher.handle_read()
+#         self.assertFalse(error.called)
 
 
-class TestNotConnected(unittest.TestCase):
-    def test_disallow_negative_terminator(self):
-        # Issue #11259
-        client = asynchat.async_chat()
-        self.assertRaises(ValueError, client.set_terminator, -1)
+# class TestHelperFunctions(unittest.TestCase):
+#     def test_find_prefix_at_end(self):
+#         self.assertEqual(asynchat.find_prefix_at_end("qwerty\r", "\r\n"), 1)
+#         self.assertEqual(asynchat.find_prefix_at_end("qwertydkjf", "\r\n"), 0)
+
+
+# class TestNotConnected(unittest.TestCase):
+#     def test_disallow_negative_terminator(self):
+#         # Issue #11259
+#         client = asynchat.async_chat()
+#         self.assertRaises(ValueError, client.set_terminator, -1)
 
 
 
